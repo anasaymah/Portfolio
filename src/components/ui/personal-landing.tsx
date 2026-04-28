@@ -1,13 +1,14 @@
 import React, { useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Github, Video, Youtube } from "lucide-react";
+import anasAvatar from "@/assets/anas-avatar.jpeg";
 
 const HeroSection: React.FC = () => {
   return (
     <section className="flex flex-col items-center text-center gap-4">
       <div className="relative">
         <img
-          src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=240&h=240&fit=crop&crop=faces"
+          src={anasAvatar}
           alt="Anas Ayman Elfeky's avatar"
           className="w-28 h-28 rounded-full object-cover ring-4 ring-white/70 shadow-xl"
         />
