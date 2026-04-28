@@ -117,13 +117,13 @@ export const PersonalLanding: React.FC = () => {
             <button
               onClick={() => setIsDark((v) => !v)}
               aria-label="Toggle night mode"
-              className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95 overflow-hidden"
+              className="group w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95 overflow-hidden"
             >
               <span key={isDark ? "sun" : "moon"} className="inline-flex animate-scale-in">
                 {isDark ? (
-                  <Sun className="w-5 h-5 text-primary" />
+                  <Sun className="w-5 h-5 text-primary transition-transform duration-500 group-hover:rotate-90" />
                 ) : (
-                  <Moon className="w-5 h-5 text-primary" />
+                  <Moon className="w-5 h-5 text-primary transition-transform duration-500 group-hover:-rotate-12" />
                 )}
               </span>
             </button>
