@@ -203,7 +203,7 @@ export const PersonalLanding: React.FC = () => {
             style={{ animationDelay: "480ms" }}
           >
             Forward to a better future{" "}
-            <Plane className="w-4 h-4 text-accent" fill="currentColor" strokeWidth={0} />
+            <Plane className="w-4 h-4 text-accent animate-plane-fly" fill="currentColor" strokeWidth={0} />
           </p>
         </div>
 
