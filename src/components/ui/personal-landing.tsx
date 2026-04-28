@@ -111,19 +111,19 @@ export const PersonalLanding: React.FC = () => {
             aria-label="Send email"
             className="group w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:shadow-md active:scale-95"
           >
-            <MailIcon className="w-[18px] h-[18px] text-primary transition-colors duration-300 group-hover:text-accent" />
+            <MailIcon className="w-[18px] h-[18px] text-primary transition-all duration-300 group-hover:text-accent group-hover:-translate-y-0.5 group-hover:scale-110" />
           </a>
           <div className="flex gap-2">
             <button
               onClick={() => setIsDark((v) => !v)}
               aria-label="Toggle night mode"
-              className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95 overflow-hidden"
+              className="group w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95 overflow-hidden"
             >
               <span key={isDark ? "sun" : "moon"} className="inline-flex animate-scale-in">
                 {isDark ? (
-                  <Sun className="w-5 h-5 text-primary" />
+                  <Sun className="w-5 h-5 text-primary transition-transform duration-500 group-hover:rotate-90" />
                 ) : (
-                  <Moon className="w-5 h-5 text-primary" />
+                  <Moon className="w-5 h-5 text-primary transition-transform duration-500 group-hover:-rotate-12" />
                 )}
               </span>
             </button>
@@ -147,9 +147,9 @@ export const PersonalLanding: React.FC = () => {
                 }
               }}
               aria-label="Share this site"
-              className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95"
+              className="group w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95"
             >
-              <Share className="w-5 h-5 text-primary transition-colors duration-300" />
+              <Share className="w-5 h-5 text-primary transition-all duration-300 group-hover:text-accent group-hover:-translate-y-0.5 group-hover:rotate-12" />
             </button>
           </div>
         </div>
@@ -188,9 +188,11 @@ export const PersonalLanding: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.label}
-                className="w-10 h-10 rounded-full bg-surface/70 backdrop-blur flex items-center justify-center text-primary border border-border/50 shadow-sm transition-all duration-300 ease-smooth hover:scale-110 hover:shadow-md hover:text-accent hover:border-accent/40 active:scale-95"
+                className="group w-10 h-10 rounded-full bg-surface/70 backdrop-blur flex items-center justify-center text-primary border border-border/50 shadow-sm transition-all duration-300 ease-smooth hover:scale-110 hover:shadow-md hover:text-accent hover:border-accent/40 active:scale-95"
               >
-                {s.icon}
+                <span className="inline-flex transition-transform duration-300 group-hover:animate-wiggle">
+                  {s.icon}
+                </span>
               </a>
             ))}
           </div>
@@ -201,7 +203,7 @@ export const PersonalLanding: React.FC = () => {
             style={{ animationDelay: "480ms" }}
           >
             Forward to a better future{" "}
-            <Plane className="w-4 h-4 text-accent" fill="currentColor" strokeWidth={0} />
+            <Plane className="w-4 h-4 text-accent animate-plane-fly" fill="currentColor" strokeWidth={0} />
           </p>
         </div>
 
@@ -217,8 +219,10 @@ export const PersonalLanding: React.FC = () => {
               className="group relative bg-surface/80 backdrop-blur rounded-2xl p-3 flex items-center gap-3 border border-border/60 shadow-sm transition-all duration-400 ease-smooth hover:shadow-lg hover:-translate-y-1 hover:border-accent/50 hover:bg-surface active:scale-[0.98] animate-fade-in-up"
             >
               {/* Icon tile — unified accent gradient */}
-              <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center text-accent-foreground bg-gradient-to-br from-accent to-accent/70 shadow-sm transition-all duration-300 group-hover:scale-105 group-hover:shadow-md">
-                {card.icon}
+              <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center text-accent-foreground bg-gradient-to-br from-accent to-accent/70 shadow-sm transition-all duration-400 ease-smooth group-hover:scale-110 group-hover:shadow-md group-hover:rotate-[-6deg]">
+                <span className="inline-flex transition-transform duration-400 ease-smooth group-hover:scale-110 group-hover:rotate-[6deg]">
+                  {card.icon}
+                </span>
               </div>
               <div className="flex-1 text-center pr-6">
                 <div className="font-semibold text-primary transition-colors duration-300">
