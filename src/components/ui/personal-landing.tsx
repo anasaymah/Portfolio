@@ -214,13 +214,11 @@ export const PersonalLanding: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               style={{ animationDelay: `${560 + i * 80}ms` }}
-              className="group relative bg-surface/80 backdrop-blur rounded-2xl p-3 flex items-center gap-3 border border-border/60 shadow-sm transition-all duration-400 ease-smooth hover:shadow-lg hover:-translate-y-1 hover:border-accent/50 hover:bg-surface active:scale-[0.98] animate-fade-in-up"
+              className="group relative bg-surface/80 backdrop-blur rounded-2xl p-3 flex items-center gap-3 border border-border/60 shadow-sm transition-all duration-300 ease-smooth hover:shadow-lg hover:-translate-y-1 hover:border-accent/50 hover:bg-surface active:scale-[0.98] animate-fade-in-up"
             >
               {/* Icon tile — unified accent gradient */}
-              <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center text-accent-foreground bg-gradient-to-br from-accent to-accent/70 shadow-sm transition-all duration-400 ease-smooth group-hover:scale-110 group-hover:shadow-md group-hover:rotate-[-6deg]">
-                <span className="inline-flex transition-transform duration-400 ease-smooth group-hover:scale-110 group-hover:rotate-[6deg]">
-                  {card.icon}
-                </span>
+              <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center text-accent-foreground bg-gradient-to-br from-accent to-accent/70 shadow-sm transition-all duration-300 ease-smooth group-hover:scale-105 group-hover:shadow-md">
+                {card.icon}
               </div>
               <div className="flex-1 text-center pr-6">
                 <div className="font-semibold text-primary transition-colors duration-300">
