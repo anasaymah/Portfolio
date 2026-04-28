@@ -96,36 +96,45 @@ export const PersonalLanding: React.FC = () => {
 
   return (
     <div
-      className="min-h-screen w-full flex items-start justify-center p-4 sm:p-8 font-sans relative overflow-hidden"
+      className="min-h-screen w-full flex items-start justify-center p-4 sm:p-8 font-sans relative overflow-hidden transition-colors duration-700 ease-smooth"
       style={{ background: "var(--gradient-warm)" }}
     >
       {/* Foggy blurred background blobs */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-32 -left-24 w-[28rem] h-[28rem] rounded-full bg-accent/40 blur-3xl" />
-        <div className="absolute top-1/3 -right-32 w-[26rem] h-[26rem] rounded-full bg-primary/30 blur-3xl" />
-        <div className="absolute bottom-[-8rem] left-1/4 w-[24rem] h-[24rem] rounded-full bg-accent/25 blur-3xl" />
+        <div className="absolute -top-32 -left-24 w-[28rem] h-[28rem] rounded-full bg-accent/40 blur-3xl animate-float-slow" />
+        <div className="absolute top-1/3 -right-32 w-[26rem] h-[26rem] rounded-full bg-primary/30 blur-3xl animate-float-slower" />
+        <div className="absolute bottom-[-8rem] left-1/4 w-[24rem] h-[24rem] rounded-full bg-accent/25 blur-3xl animate-float-slow" />
       </div>
 
       <div
-        className="w-full max-w-md bg-card/70 backdrop-blur-xl rounded-3xl p-5 sm:p-6 relative border border-border/60 z-10"
+        className="w-full max-w-md bg-card/70 backdrop-blur-xl rounded-3xl p-5 sm:p-6 relative border border-border/60 z-10 animate-scale-in transition-colors duration-700 ease-smooth"
         style={{ boxShadow: "var(--shadow-soft)" }}
       >
         {/* Top bar */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between animate-fade-in" style={{ animationDelay: "100ms" }}>
           <a
             href="mailto:anasaymah@gmail.com"
             aria-label="Send email"
-            className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 hover:text-accent transition-colors"
+            className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95"
           >
-            <Mail className="w-5 h-5 text-primary" />
+            <Mail className="w-5 h-5 text-primary transition-colors duration-300" />
           </a>
           <div className="flex gap-2">
             <button
               onClick={() => setIsDark((v) => !v)}
               aria-label="Toggle night mode"
-              className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 hover:text-accent transition-colors"
+              className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95 overflow-hidden"
             >
-              {isDark ? <Sun className="w-5 h-5 text-primary" /> : <Moon className="w-5 h-5 text-primary" />}
+              <span
+                key={isDark ? "sun" : "moon"}
+                className="inline-flex animate-scale-in"
+              >
+                {isDark ? (
+                  <Sun className="w-5 h-5 text-primary" />
+                ) : (
+                  <Moon className="w-5 h-5 text-primary" />
+                )}
+              </span>
             </button>
             <button
               onClick={async () => {
@@ -147,29 +156,43 @@ export const PersonalLanding: React.FC = () => {
                 }
               }}
               aria-label="Share this site"
-              className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 hover:text-accent transition-colors"
+              className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95"
             >
-              <Share className="w-5 h-5 text-primary" />
+              <Share className="w-5 h-5 text-primary transition-colors duration-300" />
             </button>
           </div>
         </div>
 
         {/* Profile */}
         <div className="flex flex-col items-center mt-4">
-          <div className="rounded-full p-1 bg-gradient-to-br from-accent to-primary/40">
+          <div
+            className="rounded-full p-1 bg-gradient-to-br from-accent to-primary/40 animate-fade-in-up transition-transform duration-500 ease-smooth hover:scale-105"
+            style={{ animationDelay: "150ms" }}
+          >
             <img
               src={anasAvatar}
               alt="Anas Ayman Elfeky's avatar"
-              className="w-28 h-28 rounded-full object-cover ring-2 ring-card"
+              className="w-28 h-28 rounded-full object-cover ring-2 ring-card transition-all duration-500"
             />
           </div>
-          <h1 className="mt-4 text-3xl font-bold text-primary tracking-tight">
+          <h1
+            className="mt-4 text-3xl font-bold text-primary tracking-tight animate-fade-in-up transition-colors duration-500"
+            style={{ animationDelay: "250ms" }}
+          >
             Anas Ayman
           </h1>
-          <p className="mt-1 text-base font-semibold text-accent">ECE Engineer</p>
+          <p
+            className="mt-1 text-base font-semibold text-accent animate-fade-in-up transition-colors duration-500"
+            style={{ animationDelay: "320ms" }}
+          >
+            ECE Engineer
+          </p>
 
           {/* Social row */}
-          <div className="flex gap-6 mt-4 text-primary">
+          <div
+            className="flex gap-6 mt-4 text-primary animate-fade-in-up"
+            style={{ animationDelay: "400ms" }}
+          >
             {socialIcons.map((s) => (
               <a
                 key={s.label}
@@ -177,7 +200,7 @@ export const PersonalLanding: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.label}
-                className="hover:text-accent transition-colors"
+                className="transition-all duration-300 ease-smooth hover:text-accent hover:scale-125 active:scale-95"
               >
                 {s.icon}
               </a>
@@ -185,34 +208,41 @@ export const PersonalLanding: React.FC = () => {
           </div>
 
           {/* Tagline */}
-          <p className="mt-8 text-base font-bold text-primary flex items-center gap-2">
-            Forward to a better future <Plane className="w-4 h-4 text-accent" fill="currentColor" strokeWidth={0} />
+          <p
+            className="mt-8 text-base font-bold text-primary flex items-center gap-2 animate-fade-in-up"
+            style={{ animationDelay: "480ms" }}
+          >
+            Forward to a better future{" "}
+            <Plane className="w-4 h-4 text-accent" fill="currentColor" strokeWidth={0} />
           </p>
         </div>
 
         {/* Link cards */}
         <div className="mt-6 flex flex-col gap-3">
-          {linkCards.map((card) => (
+          {linkCards.map((card, i) => (
             <a
               key={card.title}
               href={card.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative bg-surface/80 backdrop-blur rounded-2xl p-4 flex items-center border border-border/60 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
+              style={{ animationDelay: `${560 + i * 80}ms` }}
+              className="group relative bg-surface/80 backdrop-blur rounded-2xl p-4 flex items-center border border-border/60 shadow-sm transition-all duration-400 ease-smooth hover:shadow-lg hover:-translate-y-1 hover:border-accent/50 hover:bg-surface active:scale-[0.98] animate-fade-in-up"
             >
-              <div className="w-10 h-10 flex items-center justify-center text-primary">
+              <div className="w-10 h-10 flex items-center justify-center text-primary transition-all duration-300 group-hover:text-accent group-hover:scale-110">
                 {card.icon}
               </div>
               <div className="flex-1 text-center pr-6">
-                <div className="font-semibold text-primary">{card.title}</div>
+                <div className="font-semibold text-primary transition-colors duration-300">
+                  {card.title}
+                </div>
                 {card.subtitle && (
-                  <div className="text-xs text-muted-foreground mt-0.5">
+                  <div className="text-xs text-muted-foreground mt-0.5 transition-colors duration-300">
                     {card.subtitle}
                   </div>
                 )}
               </div>
               <button
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-primary"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-primary transition-colors duration-300"
                 onClick={(e) => e.preventDefault()}
                 aria-label="More"
               >
