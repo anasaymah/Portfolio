@@ -111,9 +111,13 @@ export const PersonalLanding: React.FC = () => {
       >
         {/* Top bar */}
         <div className="flex items-center justify-between">
-          <button className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50">
-            <Asterisk className="w-5 h-5 text-primary" strokeWidth={2.5} />
-          </button>
+          <a
+            href="mailto:anasaymah@gmail.com"
+            aria-label="Send email"
+            className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 hover:text-accent transition-colors"
+          >
+            <Mail className="w-5 h-5 text-primary" />
+          </a>
           <div className="flex gap-2">
             <button
               onClick={() => setIsDark((v) => !v)}
@@ -122,10 +126,28 @@ export const PersonalLanding: React.FC = () => {
             >
               {isDark ? <Sun className="w-5 h-5 text-primary" /> : <Moon className="w-5 h-5 text-primary" />}
             </button>
-            <button className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50">
-              <Bell className="w-5 h-5 text-primary" />
-            </button>
-            <button className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50">
+            <button
+              onClick={async () => {
+                const url = window.location.href;
+                const shareData = {
+                  title: "Anas Ayman",
+                  text: "Check out Anas Ayman's links",
+                  url,
+                };
+                try {
+                  if (navigator.share) {
+                    await navigator.share(shareData);
+                  } else {
+                    await navigator.clipboard.writeText(url);
+                    alert("Link copied to clipboard!");
+                  }
+                } catch (e) {
+                  // user cancelled or share failed
+                }
+              }}
+              aria-label="Share this site"
+              className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 hover:text-accent transition-colors"
+            >
               <Share className="w-5 h-5 text-primary" />
             </button>
           </div>
