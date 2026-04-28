@@ -188,11 +188,9 @@ export const PersonalLanding: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.label}
-                className="group w-10 h-10 rounded-full bg-surface/70 backdrop-blur flex items-center justify-center text-primary border border-border/50 shadow-sm transition-all duration-300 ease-smooth hover:scale-110 hover:shadow-md hover:text-accent hover:border-accent/40 active:scale-95"
+                className="w-10 h-10 rounded-full bg-surface/70 backdrop-blur flex items-center justify-center text-primary border border-border/50 shadow-sm transition-all duration-300 ease-smooth hover:scale-110 hover:shadow-md hover:text-accent hover:border-accent/40 active:scale-95"
               >
-                <span className="inline-flex transition-transform duration-300 group-hover:animate-wiggle">
-                  {s.icon}
-                </span>
+                {s.icon}
               </a>
             ))}
           </div>
