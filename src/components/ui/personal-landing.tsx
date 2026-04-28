@@ -121,9 +121,9 @@ export const PersonalLanding: React.FC = () => {
             >
               <span key={isDark ? "sun" : "moon"} className="inline-flex animate-scale-in">
                 {isDark ? (
-                  <Sun className="w-5 h-5 text-primary transition-transform duration-500 group-hover:rotate-90" />
+                  <Sun className="w-5 h-5 text-primary" />
                 ) : (
-                  <Moon className="w-5 h-5 text-primary transition-transform duration-500 group-hover:-rotate-12" />
+                  <Moon className="w-5 h-5 text-primary" />
                 )}
               </span>
             </button>
