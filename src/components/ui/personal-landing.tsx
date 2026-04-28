@@ -17,7 +17,6 @@ interface LinkCard {
   subtitle?: string;
   icon: React.ReactNode;
   href: string;
-  brandColor: string;
 }
 
 const TIKTOK_URL = "https://www.tiktok.com/@anasaymah";
