@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { Asterisk, Share, MoreVertical, Plane, Sun, Moon } from "lucide-react";
 import {
-  Asterisk,
-  Bell,
-  Share,
-  Facebook,
-  Youtube,
-  Instagram,
-  Linkedin,
-  Music2,
-  Github,
-  AtSign,
-  MoreVertical,
-  Plane,
-  Sun,
-  Moon,
-  Mail,
-} from "lucide-react";
+  TikTokIcon,
+  InstagramIcon,
+  FacebookIcon,
+  LinkedInIcon,
+  YouTubeIcon,
+  GitHubIcon,
+  ThreadsIcon,
+  MailIcon,
+} from "@/components/ui/brand-icons";
 import anasAvatar from "@/assets/anas-avatar.jpeg";
 
 interface LinkCard {
@@ -23,6 +17,7 @@ interface LinkCard {
   subtitle?: string;
   icon: React.ReactNode;
   href: string;
+  brandColor: string;
 }
 
 const TIKTOK_URL = "https://www.tiktok.com/@anasaymah";
@@ -37,52 +32,59 @@ const linkCards: LinkCard[] = [
   {
     title: "TikTok",
     subtitle: "@anasaymah",
-    icon: <Music2 className="w-6 h-6" fill="currentColor" strokeWidth={0} />,
+    icon: <TikTokIcon className="w-6 h-6" />,
     href: TIKTOK_URL,
+    brandColor: "#000000",
   },
   {
     title: "Instagram",
     subtitle: "@anasaymah",
-    icon: <Instagram className="w-6 h-6" />,
+    icon: <InstagramIcon className="w-6 h-6" />,
     href: INSTAGRAM_URL,
+    brandColor: "#E1306C",
   },
   {
     title: "Facebook",
     subtitle: "Anas Ayman",
-    icon: <Facebook className="w-6 h-6" fill="currentColor" strokeWidth={0} />,
+    icon: <FacebookIcon className="w-6 h-6" />,
     href: FACEBOOK_URL,
+    brandColor: "#1877F2",
   },
   {
     title: "LinkedIn",
     subtitle: "in/anasayman",
-    icon: <Linkedin className="w-6 h-6" fill="currentColor" strokeWidth={0} />,
+    icon: <LinkedInIcon className="w-6 h-6" />,
     href: LINKEDIN_URL,
+    brandColor: "#0A66C2",
   },
   {
     title: "YouTube",
     subtitle: "@AnasAymah",
-    icon: <Youtube className="w-6 h-6" fill="currentColor" strokeWidth={0} />,
+    icon: <YouTubeIcon className="w-6 h-6" />,
     href: YOUTUBE_URL,
+    brandColor: "#FF0000",
   },
   {
     title: "GitHub",
     subtitle: "@anasaymah",
-    icon: <Github className="w-6 h-6" />,
+    icon: <GitHubIcon className="w-6 h-6" />,
     href: GITHUB_URL,
+    brandColor: "#181717",
   },
   {
     title: "Threads",
     subtitle: "@anasaymah",
-    icon: <AtSign className="w-6 h-6" />,
+    icon: <ThreadsIcon className="w-6 h-6" />,
     href: THREADS_URL,
+    brandColor: "#000000",
   },
 ];
 
 const socialIcons = [
-  { icon: <Facebook className="w-6 h-6" fill="currentColor" strokeWidth={0} />, href: FACEBOOK_URL, label: "Facebook" },
-  { icon: <Instagram className="w-6 h-6" />, href: INSTAGRAM_URL, label: "Instagram" },
-  { icon: <Music2 className="w-6 h-6" fill="currentColor" strokeWidth={0} />, href: TIKTOK_URL, label: "TikTok" },
-  { icon: <Youtube className="w-6 h-6" fill="currentColor" strokeWidth={0} />, href: YOUTUBE_URL, label: "YouTube" },
+  { icon: <FacebookIcon className="w-5 h-5" />, href: FACEBOOK_URL, label: "Facebook", color: "#1877F2" },
+  { icon: <InstagramIcon className="w-5 h-5" />, href: INSTAGRAM_URL, label: "Instagram", color: "#E1306C" },
+  { icon: <TikTokIcon className="w-5 h-5" />, href: TIKTOK_URL, label: "TikTok", color: "#000000" },
+  { icon: <YouTubeIcon className="w-5 h-5" />, href: YOUTUBE_URL, label: "YouTube", color: "#FF0000" },
 ];
 
 export const PersonalLanding: React.FC = () => {
@@ -115,9 +117,9 @@ export const PersonalLanding: React.FC = () => {
           <a
             href="mailto:anasaymah@gmail.com"
             aria-label="Send email"
-            className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95"
+            className="group w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:shadow-md active:scale-95"
           >
-            <Mail className="w-5 h-5 text-primary transition-colors duration-300" />
+            <MailIcon className="w-[18px] h-[18px] text-primary transition-colors duration-300 group-hover:text-accent" />
           </a>
           <div className="flex gap-2">
             <button
@@ -125,10 +127,7 @@ export const PersonalLanding: React.FC = () => {
               aria-label="Toggle night mode"
               className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95 overflow-hidden"
             >
-              <span
-                key={isDark ? "sun" : "moon"}
-                className="inline-flex animate-scale-in"
-              >
+              <span key={isDark ? "sun" : "moon"} className="inline-flex animate-scale-in">
                 {isDark ? (
                   <Sun className="w-5 h-5 text-primary" />
                 ) : (
@@ -152,7 +151,7 @@ export const PersonalLanding: React.FC = () => {
                     alert("Link copied to clipboard!");
                   }
                 } catch (e) {
-                  // user cancelled or share failed
+                  // user cancelled
                 }
               }}
               aria-label="Share this site"
@@ -189,10 +188,7 @@ export const PersonalLanding: React.FC = () => {
           </p>
 
           {/* Social row */}
-          <div
-            className="flex gap-6 mt-4 text-primary animate-fade-in-up"
-            style={{ animationDelay: "400ms" }}
-          >
+          <div className="flex gap-5 mt-4 animate-fade-in-up" style={{ animationDelay: "400ms" }}>
             {socialIcons.map((s) => (
               <a
                 key={s.label}
@@ -200,7 +196,9 @@ export const PersonalLanding: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.label}
-                className="transition-all duration-300 ease-smooth hover:text-accent hover:scale-125 active:scale-95"
+                className="w-10 h-10 rounded-full bg-surface/70 backdrop-blur flex items-center justify-center text-primary border border-border/50 shadow-sm transition-all duration-300 ease-smooth hover:scale-110 hover:shadow-md active:scale-95"
+                onMouseEnter={(e) => (e.currentTarget.style.color = s.color)}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "")}
               >
                 {s.icon}
               </a>
@@ -226,9 +224,13 @@ export const PersonalLanding: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               style={{ animationDelay: `${560 + i * 80}ms` }}
-              className="group relative bg-surface/80 backdrop-blur rounded-2xl p-4 flex items-center border border-border/60 shadow-sm transition-all duration-400 ease-smooth hover:shadow-lg hover:-translate-y-1 hover:border-accent/50 hover:bg-surface active:scale-[0.98] animate-fade-in-up"
+              className="group relative bg-surface/80 backdrop-blur rounded-2xl p-3 flex items-center gap-3 border border-border/60 shadow-sm transition-all duration-400 ease-smooth hover:shadow-lg hover:-translate-y-1 hover:border-accent/50 hover:bg-surface active:scale-[0.98] animate-fade-in-up"
             >
-              <div className="w-10 h-10 flex items-center justify-center text-primary transition-all duration-300 group-hover:text-accent group-hover:scale-110">
+              {/* Brand icon tile */}
+              <div
+                className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center text-white shadow-sm transition-transform duration-300 group-hover:scale-105"
+                style={{ backgroundColor: card.brandColor }}
+              >
                 {card.icon}
               </div>
               <div className="flex-1 text-center pr-6">
