@@ -175,7 +175,7 @@ export const PersonalLanding: React.FC = () => {
               href={card.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative bg-surface rounded-2xl p-4 flex items-center border border-border/60 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
+              className="relative bg-surface/80 backdrop-blur rounded-2xl p-4 flex items-center border border-border/60 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
             >
               <div className="w-10 h-10 flex items-center justify-center text-primary">
                 {card.icon}
