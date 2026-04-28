@@ -96,6 +96,28 @@ export default {
           "0%, 100%": { transform: "translate(0px, 0px) scale(1)" },
           "50%": { transform: "translate(-25px, 20px) scale(1.08)" },
         },
+        "wiggle": {
+          "0%, 100%": { transform: "rotate(0deg)" },
+          "25%": { transform: "rotate(-8deg)" },
+          "75%": { transform: "rotate(8deg)" },
+        },
+        "spin-slow": {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
+        "bounce-soft": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-4px)" },
+        },
+        "plane-fly": {
+          "0%, 100%": { transform: "translate(0, 0) rotate(0deg)" },
+          "50%": { transform: "translate(4px, -3px) rotate(8deg)" },
+        },
+        "icon-pop": {
+          "0%": { transform: "scale(1)" },
+          "40%": { transform: "scale(1.2)" },
+          "100%": { transform: "scale(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -105,6 +127,11 @@ export default {
         "scale-in": "scale-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both",
         "float-slow": "float-slow 12s ease-in-out infinite",
         "float-slower": "float-slower 16s ease-in-out infinite",
+        "wiggle": "wiggle 0.5s ease-in-out",
+        "spin-slow": "spin-slow 8s linear infinite",
+        "bounce-soft": "bounce-soft 2s ease-in-out infinite",
+        "plane-fly": "plane-fly 3s ease-in-out infinite",
+        "icon-pop": "icon-pop 0.4s ease-out",
       },
       transitionTimingFunction: {
         smooth: "cubic-bezier(0.22, 1, 0.36, 1)",
