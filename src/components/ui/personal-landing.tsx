@@ -29,16 +29,22 @@ const THREADS_URL = "https://www.threads.net/@anasaymah";
 
 const linkCards: LinkCard[] = [
   {
+    title: "Instagram",
+    subtitle: "@anasaymah",
+    icon: <InstagramIcon className="w-6 h-6" />,
+    href: INSTAGRAM_URL,
+  },
+  {
     title: "TikTok",
     subtitle: "@anasaymah",
     icon: <TikTokIcon className="w-6 h-6" />,
     href: TIKTOK_URL,
   },
   {
-    title: "Instagram",
-    subtitle: "@anasaymah",
-    icon: <InstagramIcon className="w-6 h-6" />,
-    href: INSTAGRAM_URL,
+    title: "YouTube",
+    subtitle: "@AnasAymah",
+    icon: <YouTubeIcon className="w-6 h-6" />,
+    href: YOUTUBE_URL,
   },
   {
     title: "Facebook",
@@ -53,22 +59,16 @@ const linkCards: LinkCard[] = [
     href: LINKEDIN_URL,
   },
   {
-    title: "YouTube",
-    subtitle: "@AnasAymah",
-    icon: <YouTubeIcon className="w-6 h-6" />,
-    href: YOUTUBE_URL,
+    title: "Threads",
+    subtitle: "@anasaymah",
+    icon: <ThreadsIcon className="w-6 h-6" />,
+    href: THREADS_URL,
   },
   {
     title: "GitHub",
     subtitle: "@anasaymah",
     icon: <GitHubIcon className="w-6 h-6" />,
     href: GITHUB_URL,
-  },
-  {
-    title: "Threads",
-    subtitle: "@anasaymah",
-    icon: <ThreadsIcon className="w-6 h-6" />,
-    href: THREADS_URL,
   },
 ];
 
@@ -111,7 +111,7 @@ export const PersonalLanding: React.FC = () => {
             aria-label="Send email"
             className="group w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:shadow-md active:scale-95"
           >
-            <MailIcon className="w-[18px] h-[18px] text-primary transition-all duration-300 group-hover:text-accent group-hover:-translate-y-0.5 group-hover:scale-110" />
+            <MailIcon className="w-[18px] h-[18px] text-primary transition-colors duration-300 group-hover:text-accent" />
           </a>
           <div className="flex gap-2">
             <button
@@ -121,9 +121,9 @@ export const PersonalLanding: React.FC = () => {
             >
               <span key={isDark ? "sun" : "moon"} className="inline-flex animate-scale-in">
                 {isDark ? (
-                  <Sun className="w-5 h-5 text-primary transition-transform duration-500 group-hover:rotate-90" />
+                  <Sun className="w-5 h-5 text-primary" />
                 ) : (
-                  <Moon className="w-5 h-5 text-primary transition-transform duration-500 group-hover:-rotate-12" />
+                  <Moon className="w-5 h-5 text-primary" />
                 )}
               </span>
             </button>
@@ -149,7 +149,7 @@ export const PersonalLanding: React.FC = () => {
               aria-label="Share this site"
               className="group w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95"
             >
-              <Share className="w-5 h-5 text-primary transition-all duration-300 group-hover:text-accent group-hover:-translate-y-0.5 group-hover:rotate-12" />
+              <Share className="w-5 h-5 text-primary transition-colors duration-300 group-hover:text-accent" />
             </button>
           </div>
         </div>
@@ -188,11 +188,9 @@ export const PersonalLanding: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.label}
-                className="group w-10 h-10 rounded-full bg-surface/70 backdrop-blur flex items-center justify-center text-primary border border-border/50 shadow-sm transition-all duration-300 ease-smooth hover:scale-110 hover:shadow-md hover:text-accent hover:border-accent/40 active:scale-95"
+                className="w-10 h-10 rounded-full bg-surface/70 backdrop-blur flex items-center justify-center text-primary border border-border/50 shadow-sm transition-all duration-300 ease-smooth hover:scale-110 hover:shadow-md hover:text-accent hover:border-accent/40 active:scale-95"
               >
-                <span className="inline-flex transition-transform duration-300 group-hover:animate-wiggle">
-                  {s.icon}
-                </span>
+                {s.icon}
               </a>
             ))}
           </div>
@@ -203,7 +201,7 @@ export const PersonalLanding: React.FC = () => {
             style={{ animationDelay: "480ms" }}
           >
             Forward to a better future{" "}
-            <Plane className="w-4 h-4 text-accent animate-plane-fly" fill="currentColor" strokeWidth={0} />
+            <Plane className="w-4 h-4 text-accent" fill="currentColor" strokeWidth={0} />
           </p>
         </div>
 
@@ -216,13 +214,11 @@ export const PersonalLanding: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               style={{ animationDelay: `${560 + i * 80}ms` }}
-              className="group relative bg-surface/80 backdrop-blur rounded-2xl p-3 flex items-center gap-3 border border-border/60 shadow-sm transition-all duration-400 ease-smooth hover:shadow-lg hover:-translate-y-1 hover:border-accent/50 hover:bg-surface active:scale-[0.98] animate-fade-in-up"
+              className="group relative bg-surface/80 backdrop-blur rounded-2xl p-3 flex items-center gap-3 border border-border/60 shadow-sm transition-all duration-300 ease-smooth hover:shadow-lg hover:-translate-y-1 hover:border-accent/50 hover:bg-surface active:scale-[0.98] animate-fade-in-up"
             >
               {/* Icon tile — unified accent gradient */}
-              <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center text-accent-foreground bg-gradient-to-br from-accent to-accent/70 shadow-sm transition-all duration-400 ease-smooth group-hover:scale-110 group-hover:shadow-md group-hover:rotate-[-6deg]">
-                <span className="inline-flex transition-transform duration-400 ease-smooth group-hover:scale-110 group-hover:rotate-[6deg]">
-                  {card.icon}
-                </span>
+              <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center text-accent-foreground bg-gradient-to-br from-accent to-accent/70 shadow-sm transition-all duration-300 ease-smooth group-hover:scale-105 group-hover:shadow-md">
+                {card.icon}
               </div>
               <div className="flex-1 text-center pr-6">
                 <div className="font-semibold text-primary transition-colors duration-300">
