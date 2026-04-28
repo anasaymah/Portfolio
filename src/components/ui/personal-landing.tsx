@@ -14,6 +14,7 @@ import {
   Plane,
   Sun,
   Moon,
+  Mail,
 } from "lucide-react";
 import anasAvatar from "@/assets/anas-avatar.jpeg";
 
