@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Asterisk,
   Bell,
@@ -12,6 +12,8 @@ import {
   AtSign,
   MoreVertical,
   Plane,
+  Sun,
+  Moon,
 } from "lucide-react";
 import anasAvatar from "@/assets/anas-avatar.jpeg";
 
