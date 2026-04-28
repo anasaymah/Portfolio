@@ -1,5 +1,18 @@
 import React from "react";
-import { Asterisk, Bell, Share, Facebook, Youtube, Mail, Linkedin, Music2, MoreVertical, Plane } from "lucide-react";
+import {
+  Asterisk,
+  Bell,
+  Share,
+  Facebook,
+  Youtube,
+  Instagram,
+  Linkedin,
+  Music2,
+  Github,
+  AtSign,
+  MoreVertical,
+  Plane,
+} from "lucide-react";
 import anasAvatar from "@/assets/anas-avatar.jpeg";
 
 interface LinkCard {
@@ -9,25 +22,64 @@ interface LinkCard {
   href: string;
 }
 
+const TIKTOK_URL = "https://www.tiktok.com/@anasaymah";
+const INSTAGRAM_URL = "https://www.instagram.com/anasaymah";
+const FACEBOOK_URL = "https://www.facebook.com/anasaymah";
+const LINKEDIN_URL = "https://linkedin.com/in/anasayman";
+const YOUTUBE_URL = "https://www.youtube.com/@AnasAymah";
+const GITHUB_URL = "https://github.com/anasaymah";
+const THREADS_URL = "https://www.threads.net/@anasaymah";
+
 const linkCards: LinkCard[] = [
   {
-    title: "LinkedIn",
-    icon: <Linkedin className="w-6 h-6" fill="currentColor" strokeWidth={0} />,
-    href: "#",
+    title: "TikTok",
+    subtitle: "@anasaymah",
+    icon: <Music2 className="w-6 h-6" fill="currentColor" strokeWidth={0} />,
+    href: TIKTOK_URL,
   },
   {
-    title: "TikTok",
-    subtitle: "Anas Ayman · 432 Followers",
-    icon: <Music2 className="w-6 h-6" fill="currentColor" strokeWidth={0} />,
-    href: "#",
+    title: "Instagram",
+    subtitle: "@anasaymah",
+    icon: <Instagram className="w-6 h-6" />,
+    href: INSTAGRAM_URL,
+  },
+  {
+    title: "Facebook",
+    subtitle: "Anas Ayman",
+    icon: <Facebook className="w-6 h-6" fill="currentColor" strokeWidth={0} />,
+    href: FACEBOOK_URL,
+  },
+  {
+    title: "LinkedIn",
+    subtitle: "in/anasayman",
+    icon: <Linkedin className="w-6 h-6" fill="currentColor" strokeWidth={0} />,
+    href: LINKEDIN_URL,
+  },
+  {
+    title: "YouTube",
+    subtitle: "@AnasAymah",
+    icon: <Youtube className="w-6 h-6" fill="currentColor" strokeWidth={0} />,
+    href: YOUTUBE_URL,
+  },
+  {
+    title: "GitHub",
+    subtitle: "@anasaymah",
+    icon: <Github className="w-6 h-6" />,
+    href: GITHUB_URL,
+  },
+  {
+    title: "Threads",
+    subtitle: "@anasaymah",
+    icon: <AtSign className="w-6 h-6" />,
+    href: THREADS_URL,
   },
 ];
 
 const socialIcons = [
-  { icon: <Facebook className="w-6 h-6" fill="currentColor" strokeWidth={0} />, href: "#", label: "Facebook" },
-  { icon: <Music2 className="w-6 h-6" fill="currentColor" strokeWidth={0} />, href: "#", label: "TikTok" },
-  { icon: <Youtube className="w-6 h-6" fill="currentColor" strokeWidth={0} />, href: "#", label: "YouTube" },
-  { icon: <Mail className="w-6 h-6" fill="currentColor" strokeWidth={0} />, href: "#", label: "Email" },
+  { icon: <Facebook className="w-6 h-6" fill="currentColor" strokeWidth={0} />, href: FACEBOOK_URL, label: "Facebook" },
+  { icon: <Instagram className="w-6 h-6" />, href: INSTAGRAM_URL, label: "Instagram" },
+  { icon: <Music2 className="w-6 h-6" fill="currentColor" strokeWidth={0} />, href: TIKTOK_URL, label: "TikTok" },
+  { icon: <Youtube className="w-6 h-6" fill="currentColor" strokeWidth={0} />, href: YOUTUBE_URL, label: "YouTube" },
 ];
 
 export const PersonalLanding: React.FC = () => {
@@ -64,7 +116,14 @@ export const PersonalLanding: React.FC = () => {
           {/* Social row */}
           <div className="flex gap-6 mt-4 text-zinc-900">
             {socialIcons.map((s) => (
-              <a key={s.label} href={s.href} aria-label={s.label} className="hover:opacity-70 transition-opacity">
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.label}
+                className="hover:opacity-70 transition-opacity"
+              >
                 {s.icon}
               </a>
             ))}
@@ -82,6 +141,8 @@ export const PersonalLanding: React.FC = () => {
             <a
               key={card.title}
               href={card.href}
+              target="_blank"
+              rel="noopener noreferrer"
               className="relative bg-white rounded-2xl p-4 flex items-center shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="w-10 h-10 flex items-center justify-center text-zinc-900">
@@ -90,8 +151,7 @@ export const PersonalLanding: React.FC = () => {
               <div className="flex-1 text-center pr-6">
                 <div className="font-semibold text-zinc-900">{card.title}</div>
                 {card.subtitle && (
-                  <div className="text-xs text-zinc-500 mt-0.5 flex items-center justify-center gap-1">
-                    <Music2 className="w-3 h-3" fill="currentColor" strokeWidth={0} />
+                  <div className="text-xs text-zinc-500 mt-0.5">
                     {card.subtitle}
                   </div>
                 )}
@@ -105,9 +165,6 @@ export const PersonalLanding: React.FC = () => {
               </button>
             </a>
           ))}
-
-          {/* Empty placeholder card */}
-          <div className="bg-white rounded-2xl h-44" />
         </div>
       </div>
     </div>
