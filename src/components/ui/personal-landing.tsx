@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Asterisk,
   Bell,
@@ -12,6 +12,8 @@ import {
   AtSign,
   MoreVertical,
   Plane,
+  Sun,
+  Moon,
 } from "lucide-react";
 import anasAvatar from "@/assets/anas-avatar.jpeg";
 
@@ -83,25 +85,47 @@ const socialIcons = [
 ];
 
 export const PersonalLanding: React.FC = () => {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isDark) root.classList.add("dark");
+    else root.classList.remove("dark");
+  }, [isDark]);
+
   return (
     <div
-      className="min-h-screen w-full flex items-start justify-center p-4 sm:p-8 font-sans"
+      className="min-h-screen w-full flex items-start justify-center p-4 sm:p-8 font-sans relative overflow-hidden"
       style={{ background: "var(--gradient-warm)" }}
     >
+      {/* Foggy blurred background blobs */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-32 -left-24 w-[28rem] h-[28rem] rounded-full bg-accent/40 blur-3xl" />
+        <div className="absolute top-1/3 -right-32 w-[26rem] h-[26rem] rounded-full bg-primary/30 blur-3xl" />
+        <div className="absolute bottom-[-8rem] left-1/4 w-[24rem] h-[24rem] rounded-full bg-accent/25 blur-3xl" />
+      </div>
+
       <div
-        className="w-full max-w-md bg-card rounded-3xl p-5 sm:p-6 relative border border-border/60"
+        className="w-full max-w-md bg-card/70 backdrop-blur-xl rounded-3xl p-5 sm:p-6 relative border border-border/60 z-10"
         style={{ boxShadow: "var(--shadow-soft)" }}
       >
         {/* Top bar */}
         <div className="flex items-center justify-between">
-          <button className="w-10 h-10 rounded-full bg-surface flex items-center justify-center shadow-sm border border-border/50">
+          <button className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50">
             <Asterisk className="w-5 h-5 text-primary" strokeWidth={2.5} />
           </button>
           <div className="flex gap-2">
-            <button className="w-10 h-10 rounded-full bg-surface flex items-center justify-center shadow-sm border border-border/50">
+            <button
+              onClick={() => setIsDark((v) => !v)}
+              aria-label="Toggle night mode"
+              className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 hover:text-accent transition-colors"
+            >
+              {isDark ? <Sun className="w-5 h-5 text-primary" /> : <Moon className="w-5 h-5 text-primary" />}
+            </button>
+            <button className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50">
               <Bell className="w-5 h-5 text-primary" />
             </button>
-            <button className="w-10 h-10 rounded-full bg-surface flex items-center justify-center shadow-sm border border-border/50">
+            <button className="w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50">
               <Share className="w-5 h-5 text-primary" />
             </button>
           </div>
@@ -151,7 +175,7 @@ export const PersonalLanding: React.FC = () => {
               href={card.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative bg-surface rounded-2xl p-4 flex items-center border border-border/60 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
+              className="relative bg-surface/80 backdrop-blur rounded-2xl p-4 flex items-center border border-border/60 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
             >
               <div className="w-10 h-10 flex items-center justify-center text-primary">
                 {card.icon}
