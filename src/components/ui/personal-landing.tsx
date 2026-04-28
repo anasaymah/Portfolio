@@ -111,7 +111,7 @@ export const PersonalLanding: React.FC = () => {
             aria-label="Send email"
             className="group w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:shadow-md active:scale-95"
           >
-            <MailIcon className="w-[18px] h-[18px] text-primary transition-all duration-300 group-hover:text-accent group-hover:-translate-y-0.5 group-hover:scale-110" />
+            <MailIcon className="w-[18px] h-[18px] text-primary transition-colors duration-300 group-hover:text-accent" />
           </a>
           <div className="flex gap-2">
             <button
