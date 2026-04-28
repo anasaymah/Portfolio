@@ -33,57 +33,50 @@ const linkCards: LinkCard[] = [
     subtitle: "@anasaymah",
     icon: <TikTokIcon className="w-6 h-6" />,
     href: TIKTOK_URL,
-    brandColor: "#000000",
   },
   {
     title: "Instagram",
     subtitle: "@anasaymah",
     icon: <InstagramIcon className="w-6 h-6" />,
     href: INSTAGRAM_URL,
-    brandColor: "#E1306C",
   },
   {
     title: "Facebook",
     subtitle: "Anas Ayman",
     icon: <FacebookIcon className="w-6 h-6" />,
     href: FACEBOOK_URL,
-    brandColor: "#1877F2",
   },
   {
     title: "LinkedIn",
     subtitle: "in/anasayman",
     icon: <LinkedInIcon className="w-6 h-6" />,
     href: LINKEDIN_URL,
-    brandColor: "#0A66C2",
   },
   {
     title: "YouTube",
     subtitle: "@AnasAymah",
     icon: <YouTubeIcon className="w-6 h-6" />,
     href: YOUTUBE_URL,
-    brandColor: "#FF0000",
   },
   {
     title: "GitHub",
     subtitle: "@anasaymah",
     icon: <GitHubIcon className="w-6 h-6" />,
     href: GITHUB_URL,
-    brandColor: "#181717",
   },
   {
     title: "Threads",
     subtitle: "@anasaymah",
     icon: <ThreadsIcon className="w-6 h-6" />,
     href: THREADS_URL,
-    brandColor: "#000000",
   },
 ];
 
 const socialIcons = [
-  { icon: <FacebookIcon className="w-5 h-5" />, href: FACEBOOK_URL, label: "Facebook", color: "#1877F2" },
-  { icon: <InstagramIcon className="w-5 h-5" />, href: INSTAGRAM_URL, label: "Instagram", color: "#E1306C" },
-  { icon: <TikTokIcon className="w-5 h-5" />, href: TIKTOK_URL, label: "TikTok", color: "#000000" },
-  { icon: <YouTubeIcon className="w-5 h-5" />, href: YOUTUBE_URL, label: "YouTube", color: "#FF0000" },
+  { icon: <FacebookIcon className="w-5 h-5" />, href: FACEBOOK_URL, label: "Facebook" },
+  { icon: <InstagramIcon className="w-5 h-5" />, href: INSTAGRAM_URL, label: "Instagram" },
+  { icon: <TikTokIcon className="w-5 h-5" />, href: TIKTOK_URL, label: "TikTok" },
+  { icon: <YouTubeIcon className="w-5 h-5" />, href: YOUTUBE_URL, label: "YouTube" },
 ];
 
 export const PersonalLanding: React.FC = () => {
