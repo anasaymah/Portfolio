@@ -8,13 +8,13 @@ const HeroSection: React.FC = () => {
       <div className="relative">
         <img
           src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=240&h=240&fit=crop&crop=faces"
-          alt="Ankit's avatar"
+          alt="Anas Ayman Elfeky's avatar"
           className="w-28 h-28 rounded-full object-cover ring-4 ring-white/70 shadow-xl"
         />
         <span className="absolute bottom-1 right-1 w-5 h-5 bg-emerald-500 rounded-full ring-2 ring-white" />
       </div>
       <h1 className="font-geist text-4xl sm:text-5xl font-black tracking-tight text-zinc-900">
-        Hi, I'm Ankit
+        Hi, I'm Anas Ayman Elfeky
       </h1>
       <p className="max-w-xl text-zinc-600 text-base sm:text-lg leading-relaxed">
         I craft beautiful, performant web experiences with React, TypeScript,
