@@ -29,16 +29,22 @@ const THREADS_URL = "https://www.threads.net/@anasaymah";
 
 const linkCards: LinkCard[] = [
   {
+    title: "Instagram",
+    subtitle: "@anasaymah",
+    icon: <InstagramIcon className="w-6 h-6" />,
+    href: INSTAGRAM_URL,
+  },
+  {
     title: "TikTok",
     subtitle: "@anasaymah",
     icon: <TikTokIcon className="w-6 h-6" />,
     href: TIKTOK_URL,
   },
   {
-    title: "Instagram",
-    subtitle: "@anasaymah",
-    icon: <InstagramIcon className="w-6 h-6" />,
-    href: INSTAGRAM_URL,
+    title: "YouTube",
+    subtitle: "@AnasAymah",
+    icon: <YouTubeIcon className="w-6 h-6" />,
+    href: YOUTUBE_URL,
   },
   {
     title: "Facebook",
@@ -53,22 +59,16 @@ const linkCards: LinkCard[] = [
     href: LINKEDIN_URL,
   },
   {
-    title: "YouTube",
-    subtitle: "@AnasAymah",
-    icon: <YouTubeIcon className="w-6 h-6" />,
-    href: YOUTUBE_URL,
+    title: "Threads",
+    subtitle: "@anasaymah",
+    icon: <ThreadsIcon className="w-6 h-6" />,
+    href: THREADS_URL,
   },
   {
     title: "GitHub",
     subtitle: "@anasaymah",
     icon: <GitHubIcon className="w-6 h-6" />,
     href: GITHUB_URL,
-  },
-  {
-    title: "Threads",
-    subtitle: "@anasaymah",
-    icon: <ThreadsIcon className="w-6 h-6" />,
-    href: THREADS_URL,
   },
 ];
 
