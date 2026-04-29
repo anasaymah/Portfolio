@@ -11,6 +11,7 @@ import {
   MailIcon,
 } from "@/components/ui/brand-icons";
 import anasAvatar from "@/assets/anas-avatar.jpeg";
+import { SignatureSVG } from "@/components/ui/signature-svg";
 
 interface LinkCard {
   title: string;
