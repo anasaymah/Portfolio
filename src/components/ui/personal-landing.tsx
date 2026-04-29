@@ -11,6 +11,7 @@ import {
   MailIcon,
 } from "@/components/ui/brand-icons";
 import anasAvatar from "@/assets/anas-avatar.jpeg";
+import { SignatureSVG } from "@/components/ui/signature-svg";
 
 interface LinkCard {
   title: string;
@@ -259,25 +260,16 @@ export const PersonalLanding: React.FC = () => {
           ))}
         </div>
 
-        {/* Decorative signature */}
+        {/* Decorative signature — handwritten reveal */}
         <div
           ref={signatureRef}
           aria-hidden
           className="mt-10 sm:mt-12 pt-6 flex justify-center"
         >
-          <img
-            src="/favicon.png"
-            alt=""
-            loading="lazy"
-            width={1024}
-            height={1024}
-            className={[
-              "w-36 sm:w-44 h-auto select-none pointer-events-none mx-auto",
-              "transition-all duration-[1200ms] ease-smooth will-change-transform",
-              signatureVisible
-                ? "opacity-70 dark:opacity-90 translate-y-0 scale-100 blur-0"
-                : "opacity-0 translate-y-4 scale-95 blur-[2px]",
-            ].join(" ")}
+          <SignatureSVG
+            play={signatureVisible}
+            durationMs={2600}
+            className="w-40 sm:w-48 mx-auto opacity-80 dark:opacity-95"
           />
         </div>
       </div>
