@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Asterisk, Share, MoreVertical, Plane, Sun, Moon } from "lucide-react";
 import {
   TikTokIcon,
@@ -81,12 +81,30 @@ const socialIcons = [
 
 export const PersonalLanding: React.FC = () => {
   const [isDark, setIsDark] = useState(false);
+  const [signatureVisible, setSignatureVisible] = useState(false);
+  const signatureRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const root = document.documentElement;
     if (isDark) root.classList.add("dark");
     else root.classList.remove("dark");
   }, [isDark]);
+
+  useEffect(() => {
+    const node = signatureRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setSignatureVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div
@@ -243,9 +261,9 @@ export const PersonalLanding: React.FC = () => {
 
         {/* Decorative signature */}
         <div
-          className="mt-8 flex justify-center animate-fade-in-up"
-          style={{ animationDelay: "900ms" }}
+          ref={signatureRef}
           aria-hidden
+          className="mt-10 sm:mt-12 pt-6 flex justify-center"
         >
           <img
             src="/favicon.png"
@@ -253,7 +271,13 @@ export const PersonalLanding: React.FC = () => {
             loading="lazy"
             width={1024}
             height={1024}
-            className="w-40 h-auto opacity-70 dark:opacity-90 dark:invert-0 select-none pointer-events-none transition-opacity duration-500 hover:opacity-100"
+            className={[
+              "w-36 sm:w-44 h-auto select-none pointer-events-none mx-auto",
+              "transition-all duration-[1200ms] ease-smooth will-change-transform",
+              signatureVisible
+                ? "opacity-70 dark:opacity-90 translate-y-0 scale-100 blur-0"
+                : "opacity-0 translate-y-4 scale-95 blur-[2px]",
+            ].join(" ")}
           />
         </div>
       </div>
