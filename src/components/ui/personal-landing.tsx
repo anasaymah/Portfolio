@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Asterisk, Share, MoreVertical, Plane, Sun, Moon } from "lucide-react";
 import {
   TikTokIcon,
@@ -242,15 +242,12 @@ export const PersonalLanding: React.FC = () => {
           ))}
         </div>
 
-        {/* Decorative signature — handwritten reveal */}
-        <div
-          ref={signatureRef}
-          aria-hidden
-          className="mt-10 sm:mt-12 pt-6 flex justify-center"
-        >
+        {/* Decorative signature — handwritten reveal (auto-plays in top third of viewport) */}
+        <div className="mt-10 sm:mt-12 pt-6 flex justify-center">
           <SignatureSVG
-            play={signatureVisible}
             durationMs={2600}
+            startDelayMs={200}
+            edgeSoftness={5}
             className="w-40 sm:w-48 mx-auto opacity-80 dark:opacity-95"
           />
         </div>
