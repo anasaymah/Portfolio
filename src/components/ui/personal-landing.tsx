@@ -240,6 +240,22 @@ export const PersonalLanding: React.FC = () => {
             </a>
           ))}
         </div>
+
+        {/* Decorative signature */}
+        <div
+          className="mt-8 flex justify-center animate-fade-in-up"
+          style={{ animationDelay: "900ms" }}
+          aria-hidden
+        >
+          <img
+            src="/favicon.png"
+            alt=""
+            loading="lazy"
+            width={1024}
+            height={1024}
+            className="w-40 h-auto opacity-70 dark:opacity-90 dark:invert-0 select-none pointer-events-none transition-opacity duration-500 hover:opacity-100"
+          />
+        </div>
       </div>
     </div>
   );
