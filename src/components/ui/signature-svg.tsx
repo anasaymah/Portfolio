@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import signatureUrl from "@/assets/signature.svg";
+const signatureUrl = "/favicon.png";
 
 interface SignatureSVGProps {
   className?: string;
