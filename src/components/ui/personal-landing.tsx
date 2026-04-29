@@ -82,30 +82,12 @@ const socialIcons = [
 
 export const PersonalLanding: React.FC = () => {
   const [isDark, setIsDark] = useState(false);
-  const [signatureVisible, setSignatureVisible] = useState(false);
-  const signatureRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const root = document.documentElement;
     if (isDark) root.classList.add("dark");
     else root.classList.remove("dark");
   }, [isDark]);
-
-  useEffect(() => {
-    const node = signatureRef.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setSignatureVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.3 }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <div
