@@ -82,6 +82,9 @@ const socialIcons = [
 
 export const PersonalLanding: React.FC = () => {
   const [isDark, setIsDark] = useState(false);
+  const [sigReplay, setSigReplay] = useState(0);
+  const [sigPlay, setSigPlay] = useState<boolean | undefined>(undefined);
+  const [sigWriting, setSigWriting] = useState(false);
 
   useEffect(() => {
     const root = document.documentElement;
