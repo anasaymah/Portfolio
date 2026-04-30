@@ -118,6 +118,31 @@ export default {
           "40%": { transform: "scale(1.2)" },
           "100%": { transform: "scale(1)" },
         },
+        "glass-pop-in": {
+          "0%": {
+            opacity: "0",
+            transform: "scale(0.82) translateY(-6px)",
+            filter: "blur(8px)",
+          },
+          "60%": {
+            opacity: "1",
+            transform: "scale(1.02) translateY(0)",
+            filter: "blur(0)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "scale(1) translateY(0)",
+            filter: "blur(0)",
+          },
+        },
+        "glass-pop-out": {
+          "0%": { opacity: "1", transform: "scale(1)", filter: "blur(0)" },
+          "100%": {
+            opacity: "0",
+            transform: "scale(0.9) translateY(-4px)",
+            filter: "blur(6px)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
