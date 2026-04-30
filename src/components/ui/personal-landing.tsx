@@ -245,14 +245,36 @@ export const PersonalLanding: React.FC = () => {
           ))}
         </div>
 
-        {/* Decorative signature — handwritten reveal (auto-plays in top third of viewport) */}
-        <div className="mt-10 sm:mt-12 pt-6 flex justify-center">
+        {/* Decorative signature — handwritten reveal */}
+        <div className="mt-10 sm:mt-12 pt-6 flex flex-col items-center gap-3">
           <SignatureSVG
-            durationMs={2600}
+            play={sigPlay}
+            replay={sigReplay}
+            durationMs={2400}
             startDelayMs={200}
             edgeSoftness={5}
-            className="w-40 sm:w-48 mx-auto opacity-80 dark:opacity-95"
+            rootMargin="0px 0px -55% 0px"
+            threshold={0.05}
+            blendMode="multiply"
+            lightOpacity={0.85}
+            darkOpacity={0.95}
+            onStart={() => setSigWriting(true)}
+            onComplete={() => setSigWriting(false)}
+            className="w-40 sm:w-48 mx-auto transition-[filter] duration-500"
           />
+          <button
+            type="button"
+            onClick={() => {
+              setSigPlay(true);
+              setSigReplay((n) => n + 1);
+            }}
+            className={`text-xs px-3 py-1.5 rounded-full bg-surface/70 backdrop-blur border border-border/60 text-primary shadow-sm transition-all duration-300 ease-smooth hover:scale-105 hover:border-accent/50 active:scale-95 ${
+              sigWriting ? "opacity-60" : "opacity-100"
+            }`}
+            aria-label="Try signature animation"
+          >
+            {sigWriting ? "…يكتب" : "جرّب الأنيميشن"}
+          </button>
         </div>
       </div>
     </div>
