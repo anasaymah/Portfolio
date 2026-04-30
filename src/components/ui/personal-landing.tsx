@@ -233,13 +233,77 @@ export const PersonalLanding: React.FC = () => {
                   </div>
                 )}
               </div>
-              <button
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-primary transition-colors duration-300"
-                onClick={(e) => e.preventDefault()}
-                aria-label="More"
-              >
-                <MoreVertical className="w-4 h-4" />
-              </button>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    aria-label="More actions"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-muted-foreground hover:text-primary hover:bg-surface transition-colors duration-300"
+                  >
+                    <MoreVertical className="w-4 h-4" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent
+                  align="end"
+                  side="left"
+                  sideOffset={8}
+                  className="w-52 p-1.5 rounded-2xl border border-border/60 bg-card/90 backdrop-blur-xl shadow-xl data-[state=open]:animate-scale-in"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                >
+                  <div className="flex flex-col">
+                    <a
+                      href={card.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-primary hover:bg-surface transition-colors"
+                    >
+                      <span>Open</span>
+                      <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                    </a>
+                    <button
+                      type="button"
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const shareData = {
+                          title: card.title,
+                          text: `Check out ${card.title} — ${card.subtitle ?? ""}`.trim(),
+                          url: card.href,
+                        };
+                        try {
+                          if (navigator.share) {
+                            await navigator.share(shareData);
+                          } else {
+                            await navigator.clipboard.writeText(card.href);
+                            toast({ title: "Link copied", description: card.href });
+                          }
+                        } catch {
+                          /* cancelled */
+                        }
+                      }}
+                      className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-primary hover:bg-surface transition-colors text-left"
+                    >
+                      <span>Share</span>
+                      <Share className="w-4 h-4 text-muted-foreground" />
+                    </button>
+                    <a
+                      href={card.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-accent hover:bg-surface transition-colors"
+                    >
+                      <span>Follow</span>
+                      <UserPlus className="w-4 h-4" />
+                    </a>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </a>
           ))}
         </div>
