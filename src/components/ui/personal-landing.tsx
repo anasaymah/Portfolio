@@ -88,31 +88,6 @@ interface HoverActionsProps {
 
 const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
   const [open, setOpen] = useState(false);
-  const openTimer = React.useRef<number | null>(null);
-  const closeTimer = React.useRef<number | null>(null);
-
-  const clearTimers = () => {
-    if (openTimer.current) {
-      window.clearTimeout(openTimer.current);
-      openTimer.current = null;
-    }
-    if (closeTimer.current) {
-      window.clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
-  };
-
-  const scheduleOpen = () => {
-    clearTimers();
-    openTimer.current = window.setTimeout(() => setOpen(true), 120);
-  };
-
-  const scheduleClose = () => {
-    clearTimers();
-    closeTimer.current = window.setTimeout(() => setOpen(false), 180);
-  };
-
-  useEffect(() => () => clearTimers(), []);
 
   const stop = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -148,12 +123,13 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
             stop(e);
             setOpen((v) => !v);
           }}
-          onMouseEnter={scheduleOpen}
-          onMouseLeave={scheduleClose}
-          onFocus={scheduleOpen}
-          onBlur={scheduleClose}
           aria-label="More actions"
-          className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-muted-foreground hover:text-primary hover:bg-surface transition-colors duration-300"
+          aria-expanded={open}
+          className={`absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full transition-all duration-300 ease-smooth ${
+            open
+              ? "text-primary bg-surface scale-110"
+              : "text-muted-foreground hover:text-primary hover:bg-surface"
+          }`}
         >
           <MoreVertical className="w-4 h-4" />
         </button>
@@ -163,13 +139,17 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
         side="left"
         sideOffset={10}
         onClick={stop}
-        onMouseEnter={() => {
-          clearTimers();
-          setOpen(true);
-        }}
-        onMouseLeave={scheduleClose}
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="w-56 p-1.5 rounded-2xl border border-border/60 bg-card/85 backdrop-blur-2xl shadow-2xl data-[state=open]:animate-scale-in"
+        style={{
+          background:
+            "linear-gradient(135deg, hsl(var(--card) / 0.55), hsl(var(--card) / 0.35))",
+          backdropFilter: "blur(28px) saturate(180%)",
+          WebkitBackdropFilter: "blur(28px) saturate(180%)",
+          boxShadow:
+            "0 20px 50px -20px hsl(var(--primary) / 0.25), 0 1px 0 0 hsl(0 0% 100% / 0.35) inset, 0 -1px 0 0 hsl(var(--primary) / 0.08) inset",
+          transformOrigin: "top right",
+        }}
+        className="w-56 p-1.5 rounded-[22px] border border-white/30 dark:border-white/10 data-[state=open]:animate-glass-pop-in data-[state=closed]:animate-glass-pop-out"
       >
         <div className="flex flex-col">
           <a
@@ -180,21 +160,21 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
               e.stopPropagation();
               setOpen(false);
             }}
-            className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-primary hover:bg-surface transition-colors"
+            className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-[13px] font-medium text-primary hover:bg-white/40 dark:hover:bg-white/10 transition-colors"
           >
             <span>Open</span>
             <ExternalLink className="w-4 h-4 text-muted-foreground" />
           </a>
-          <div className="h-px bg-border/50 mx-2" />
+          <div className="h-px bg-white/30 dark:bg-white/10 mx-2" />
           <button
             type="button"
             onClick={handleShare}
-            className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-primary hover:bg-surface transition-colors text-left"
+            className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-[13px] font-medium text-primary hover:bg-white/40 dark:hover:bg-white/10 transition-colors text-left"
           >
             <span>Share</span>
             <Share className="w-4 h-4 text-muted-foreground" />
           </button>
-          <div className="h-px bg-border/50 mx-2" />
+          <div className="h-px bg-white/30 dark:bg-white/10 mx-2" />
           <a
             href={card.href}
             target="_blank"
@@ -203,7 +183,7 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
               e.stopPropagation();
               setOpen(false);
             }}
-            className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-[13px] font-semibold text-accent hover:bg-surface transition-colors"
+            className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-[13px] font-semibold text-accent hover:bg-white/40 dark:hover:bg-white/10 transition-colors"
           >
             <span>Follow</span>
             <UserPlus className="w-4 h-4" />
