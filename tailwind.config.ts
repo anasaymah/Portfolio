@@ -157,6 +157,8 @@ export default {
         "bounce-soft": "bounce-soft 2s ease-in-out infinite",
         "plane-fly": "plane-fly 3s ease-in-out infinite",
         "icon-pop": "icon-pop 0.4s ease-out",
+        "glass-pop-in": "glass-pop-in 380ms cubic-bezier(0.22, 1.2, 0.36, 1) both",
+        "glass-pop-out": "glass-pop-out 200ms cubic-bezier(0.4, 0, 1, 1) both",
       },
       transitionTimingFunction: {
         smooth: "cubic-bezier(0.22, 1, 0.36, 1)",
