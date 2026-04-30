@@ -82,9 +82,6 @@ const socialIcons = [
 
 export const PersonalLanding: React.FC = () => {
   const [isDark, setIsDark] = useState(false);
-  const [sigReplay, setSigReplay] = useState(0);
-  const [sigPlay, setSigPlay] = useState<boolean | undefined>(undefined);
-  const [sigWriting, setSigWriting] = useState(false);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -246,10 +243,8 @@ export const PersonalLanding: React.FC = () => {
         </div>
 
         {/* Decorative signature — handwritten reveal */}
-        <div className="mt-10 sm:mt-12 pt-6 flex flex-col items-center gap-3">
+        <div className="mt-10 sm:mt-12 pt-6 flex justify-center">
           <SignatureSVG
-            play={sigPlay}
-            replay={sigReplay}
             durationMs={2400}
             startDelayMs={200}
             edgeSoftness={5}
@@ -258,23 +253,8 @@ export const PersonalLanding: React.FC = () => {
             blendMode="multiply"
             lightOpacity={0.85}
             darkOpacity={0.95}
-            onStart={() => setSigWriting(true)}
-            onComplete={() => setSigWriting(false)}
-            className="w-40 sm:w-48 mx-auto transition-[filter] duration-500"
+            className="w-40 sm:w-48 mx-auto"
           />
-          <button
-            type="button"
-            onClick={() => {
-              setSigPlay(true);
-              setSigReplay((n) => n + 1);
-            }}
-            className={`text-xs px-3 py-1.5 rounded-full bg-surface/70 backdrop-blur border border-border/60 text-primary shadow-sm transition-all duration-300 ease-smooth hover:scale-105 hover:border-accent/50 active:scale-95 ${
-              sigWriting ? "opacity-60" : "opacity-100"
-            }`}
-            aria-label="Try signature animation"
-          >
-            {sigWriting ? "…يكتب" : "جرّب الأنيميشن"}
-          </button>
         </div>
       </div>
     </div>
