@@ -82,6 +82,139 @@ const socialIcons = [
   { icon: <YouTubeIcon className="w-5 h-5" />, href: YOUTUBE_URL, label: "YouTube" },
 ];
 
+interface HoverActionsProps {
+  card: LinkCard;
+}
+
+const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
+  const [open, setOpen] = useState(false);
+  const openTimer = React.useRef<number | null>(null);
+  const closeTimer = React.useRef<number | null>(null);
+
+  const clearTimers = () => {
+    if (openTimer.current) {
+      window.clearTimeout(openTimer.current);
+      openTimer.current = null;
+    }
+    if (closeTimer.current) {
+      window.clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+
+  const scheduleOpen = () => {
+    clearTimers();
+    openTimer.current = window.setTimeout(() => setOpen(true), 120);
+  };
+
+  const scheduleClose = () => {
+    clearTimers();
+    closeTimer.current = window.setTimeout(() => setOpen(false), 180);
+  };
+
+  useEffect(() => () => clearTimers(), []);
+
+  const stop = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleShare = async (e: React.MouseEvent) => {
+    stop(e);
+    const shareData = {
+      title: card.title,
+      text: `Check out ${card.title}${card.subtitle ? ` — ${card.subtitle}` : ""}`,
+      url: card.href,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(card.href);
+        toast({ title: "Link copied", description: card.href });
+      }
+    } catch {
+      /* cancelled */
+    }
+    setOpen(false);
+  };
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          onClick={(e) => {
+            stop(e);
+            setOpen((v) => !v);
+          }}
+          onMouseEnter={scheduleOpen}
+          onMouseLeave={scheduleClose}
+          onFocus={scheduleOpen}
+          onBlur={scheduleClose}
+          aria-label="More actions"
+          className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-muted-foreground hover:text-primary hover:bg-surface transition-colors duration-300"
+        >
+          <MoreVertical className="w-4 h-4" />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent
+        align="end"
+        side="left"
+        sideOffset={10}
+        onClick={stop}
+        onMouseEnter={() => {
+          clearTimers();
+          setOpen(true);
+        }}
+        onMouseLeave={scheduleClose}
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        className="w-56 p-1.5 rounded-2xl border border-border/60 bg-card/85 backdrop-blur-2xl shadow-2xl data-[state=open]:animate-scale-in"
+      >
+        <div className="flex flex-col">
+          <a
+            href={card.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpen(false);
+            }}
+            className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-primary hover:bg-surface transition-colors"
+          >
+            <span>Open</span>
+            <ExternalLink className="w-4 h-4 text-muted-foreground" />
+          </a>
+          <div className="h-px bg-border/50 mx-2" />
+          <button
+            type="button"
+            onClick={handleShare}
+            className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-primary hover:bg-surface transition-colors text-left"
+          >
+            <span>Share</span>
+            <Share className="w-4 h-4 text-muted-foreground" />
+          </button>
+          <div className="h-px bg-border/50 mx-2" />
+          <a
+            href={card.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpen(false);
+            }}
+            className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-[13px] font-semibold text-accent hover:bg-surface transition-colors"
+          >
+            <span>Follow</span>
+            <UserPlus className="w-4 h-4" />
+          </a>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
+
 export const PersonalLanding: React.FC = () => {
   const [isDark, setIsDark] = useState(false);
 
@@ -233,77 +366,7 @@ export const PersonalLanding: React.FC = () => {
                   </div>
                 )}
               </div>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                    }}
-                    aria-label="More actions"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-muted-foreground hover:text-primary hover:bg-surface transition-colors duration-300"
-                  >
-                    <MoreVertical className="w-4 h-4" />
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent
-                  align="end"
-                  side="left"
-                  sideOffset={8}
-                  className="w-52 p-1.5 rounded-2xl border border-border/60 bg-card/90 backdrop-blur-xl shadow-xl data-[state=open]:animate-scale-in"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
-                >
-                  <div className="flex flex-col">
-                    <a
-                      href={card.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-primary hover:bg-surface transition-colors"
-                    >
-                      <span>Open</span>
-                      <ExternalLink className="w-4 h-4 text-muted-foreground" />
-                    </a>
-                    <button
-                      type="button"
-                      onClick={async (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const shareData = {
-                          title: card.title,
-                          text: `Check out ${card.title} — ${card.subtitle ?? ""}`.trim(),
-                          url: card.href,
-                        };
-                        try {
-                          if (navigator.share) {
-                            await navigator.share(shareData);
-                          } else {
-                            await navigator.clipboard.writeText(card.href);
-                            toast({ title: "Link copied", description: card.href });
-                          }
-                        } catch {
-                          /* cancelled */
-                        }
-                      }}
-                      className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-primary hover:bg-surface transition-colors text-left"
-                    >
-                      <span>Share</span>
-                      <Share className="w-4 h-4 text-muted-foreground" />
-                    </button>
-                    <a
-                      href={card.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-accent hover:bg-surface transition-colors"
-                    >
-                      <span>Follow</span>
-                      <UserPlus className="w-4 h-4" />
-                    </a>
-                  </div>
-                </PopoverContent>
-              </Popover>
+              <HoverActions card={card} />
             </a>
           ))}
         </div>
