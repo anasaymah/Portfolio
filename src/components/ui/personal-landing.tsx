@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Asterisk, Share, MoreVertical, Plane, Sun, Moon } from "lucide-react";
+import { Asterisk, Share, MoreVertical, Plane, Sun, Moon, ExternalLink, UserPlus } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { toast } from "@/hooks/use-toast";
 import {
   TikTokIcon,
   InstagramIcon,
