@@ -148,21 +148,22 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
             spawnRipple(e);
             setOpen((v) => !v);
           }}
-          onBlur={() => {
-            // close when focus moves to another element outside
-            window.setTimeout(() => {
-              const active = document.activeElement;
-              if (!active?.closest("[data-radix-popper-content-wrapper]")) {
-                setOpen(false);
-              }
-            }, 0);
-          }}
           aria-label="More actions"
           aria-expanded={open}
-          className={`absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full overflow-hidden transition-all duration-300 ease-smooth ${
+          style={{
+            background: open
+              ? "linear-gradient(135deg, hsl(var(--card) / 0.55), hsl(var(--card) / 0.3))"
+              : undefined,
+            backdropFilter: open ? "blur(18px) saturate(180%)" : undefined,
+            WebkitBackdropFilter: open ? "blur(18px) saturate(180%)" : undefined,
+            boxShadow: open
+              ? "0 1px 0 0 hsl(0 0% 100% / 0.35) inset, 0 6px 18px -10px hsl(var(--primary) / 0.3)"
+              : undefined,
+          }}
+          className={`absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full overflow-hidden border transition-all duration-300 ease-smooth ${
             open
-              ? "text-primary bg-surface scale-110"
-              : "text-muted-foreground hover:text-primary hover:bg-surface"
+              ? "text-primary border-white/30 dark:border-white/10 scale-110"
+              : "text-muted-foreground border-transparent hover:text-primary hover:border-white/30 dark:hover:border-white/10"
           }`}
         >
           <MoreVertical className="w-4 h-4 relative z-10" />
