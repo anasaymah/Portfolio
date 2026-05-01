@@ -412,8 +412,8 @@ export const PersonalLanding: React.FC = () => {
               href={card.href}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ animationDelay: `${560 + i * 80}ms` }}
-              className="group relative bg-surface/80 backdrop-blur rounded-2xl p-3 flex items-center gap-3 border border-border/60 shadow-sm transition-all duration-300 ease-smooth hover:shadow-lg hover:-translate-y-1 hover:border-accent/50 hover:bg-surface active:scale-[0.98] animate-fade-in-up"
+              style={{ ...iosGlass, animationDelay: `${560 + i * 80}ms` }}
+              className="group relative rounded-2xl p-3 flex items-center gap-3 border border-white/30 dark:border-white/10 transition-all duration-300 ease-smooth hover:-translate-y-1 hover:border-accent/50 active:scale-[0.98] animate-fade-in-up"
             >
               {/* Icon tile — unified accent gradient */}
               <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center text-accent-foreground bg-gradient-to-br from-accent to-accent/70 shadow-sm transition-all duration-300 ease-smooth group-hover:scale-105 group-hover:shadow-md">
