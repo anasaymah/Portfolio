@@ -296,7 +296,12 @@ export const SignatureSVG: React.FC<SignatureSVGProps> = ({
   const soft = Math.max(0, edgeSoftness);
   const maskGradient = `linear-gradient(to right, #000 calc(var(--sig-pct, 0%) - ${soft}%), transparent var(--sig-pct, 0%))`;
   const src = source === "svg" ? signatureSvgUrl : signaturePngUrl;
-  const opacityValue = scrubOnScroll || isPlaying ? (isDark ? darkOpacity : lightOpacity) : 0;
+  const themeOpacity = isDark ? darkOpacity : lightOpacity;
+  const opacityValue = isStatic
+    ? themeOpacity
+    : scrubOnScroll || isPlaying
+      ? themeOpacity
+      : 0;
 
   return (
     <div ref={wrapperRef} className={className} aria-hidden="true">
