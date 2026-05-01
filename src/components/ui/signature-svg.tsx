@@ -315,15 +315,17 @@ export const SignatureSVG: React.FC<SignatureSVGProps> = ({
         className="w-full h-auto select-none pointer-events-none"
         style={{
           opacity: fading ? 0 : opacityValue,
-          transition: fading
-            ? `opacity ${fadeOutMs}ms ease-in`
-            : `opacity 240ms ease-out`,
-          WebkitMaskImage: maskGradient,
-          maskImage: maskGradient,
+          transition: isStatic
+            ? "none"
+            : fading
+              ? `opacity ${fadeOutMs}ms ease-in`
+              : `opacity 240ms ease-out`,
+          WebkitMaskImage: isStatic ? undefined : maskGradient,
+          maskImage: isStatic ? undefined : maskGradient,
           WebkitMaskRepeat: "no-repeat",
           maskRepeat: "no-repeat",
           mixBlendMode: blendMode,
-          willChange: done ? "auto" : "mask-image, opacity",
+          willChange: isStatic || done ? "auto" : "mask-image, opacity",
           transform: "translateZ(0)",
           backfaceVisibility: "hidden",
         }}
