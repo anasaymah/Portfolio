@@ -164,6 +164,7 @@ export const SignatureSVG: React.FC<SignatureSVGProps> = ({
 
   // Scroll-scrub mode.
   useEffect(() => {
+    if (isStatic) return;
     if (!scrubOnScroll) return;
     const node = wrapperRef.current;
     if (!node) return;
