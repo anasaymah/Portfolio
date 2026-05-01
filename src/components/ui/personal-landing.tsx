@@ -211,8 +211,10 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
         onFocusOutside={() => setOpen(false)}
         onInteractOutside={() => setOpen(false)}
         onEscapeKeyDown={() => setOpen(false)}
-        data-side-origin="top-right"
         style={{
+          ...iosGlassStrong,
+          transformOrigin: "var(--popover-origin, top right)",
+        }}
           background:
             "linear-gradient(135deg, hsl(var(--card) / 0.55), hsl(var(--card) / 0.35))",
           backdropFilter: "blur(28px) saturate(180%)",
