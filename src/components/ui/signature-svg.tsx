@@ -74,6 +74,7 @@ const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
 
 export const SignatureSVG: React.FC<SignatureSVGProps> = ({
   className,
+  static: isStatic = false,
   play,
   replay,
   source = "png",
