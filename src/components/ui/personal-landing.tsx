@@ -215,15 +215,6 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
           ...iosGlassStrong,
           transformOrigin: "var(--popover-origin, top right)",
         }}
-          background:
-            "linear-gradient(135deg, hsl(var(--card) / 0.55), hsl(var(--card) / 0.35))",
-          backdropFilter: "blur(28px) saturate(180%)",
-          WebkitBackdropFilter: "blur(28px) saturate(180%)",
-          boxShadow:
-            "0 20px 50px -20px hsl(var(--primary) / 0.25), 0 1px 0 0 hsl(0 0% 100% / 0.35) inset, 0 -1px 0 0 hsl(var(--primary) / 0.08) inset",
-          // origin auto-set per Radix side/align: end+left → top-right; start+left → bottom-right
-          transformOrigin: "var(--popover-origin, top right)",
-        }}
         className="w-56 p-1.5 rounded-[22px] border border-white/30 dark:border-white/10 data-[state=open]:animate-glass-pop-in data-[state=closed]:animate-glass-pop-out motion-reduce:!animate-none motion-reduce:transition-none [&[data-side=top][data-align=end]]:[--popover-origin:bottom_right] [&[data-side=top][data-align=start]]:[--popover-origin:bottom_left] [&[data-side=bottom][data-align=end]]:[--popover-origin:top_right] [&[data-side=bottom][data-align=start]]:[--popover-origin:top_left] [&[data-side=left]]:[--popover-origin:top_right] [&[data-side=right]]:[--popover-origin:top_left]"
       >
         <div className="flex flex-col">
