@@ -82,6 +82,25 @@ const socialIcons = [
   { icon: <YouTubeIcon className="w-5 h-5" />, href: YOUTUBE_URL, label: "YouTube" },
 ];
 
+// Shared iOS-28 liquid-glass surface (used across cards, buttons, container)
+const iosGlass: React.CSSProperties = {
+  background:
+    "linear-gradient(135deg, hsl(var(--card) / 0.55), hsl(var(--card) / 0.3))",
+  backdropFilter: "blur(22px) saturate(180%)",
+  WebkitBackdropFilter: "blur(22px) saturate(180%)",
+  boxShadow:
+    "0 1px 0 0 hsl(0 0% 100% / 0.35) inset, 0 -1px 0 0 hsl(var(--primary) / 0.06) inset, 0 8px 24px -12px hsl(var(--primary) / 0.18)",
+};
+
+const iosGlassStrong: React.CSSProperties = {
+  background:
+    "linear-gradient(135deg, hsl(var(--card) / 0.65), hsl(var(--card) / 0.4))",
+  backdropFilter: "blur(28px) saturate(180%)",
+  WebkitBackdropFilter: "blur(28px) saturate(180%)",
+  boxShadow:
+    "0 1px 0 0 hsl(0 0% 100% / 0.4) inset, 0 -1px 0 0 hsl(var(--primary) / 0.08) inset, 0 20px 50px -20px hsl(var(--primary) / 0.25)",
+};
+
 interface HoverActionsProps {
   card: LinkCard;
 }
