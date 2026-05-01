@@ -409,11 +409,7 @@ export const PersonalLanding: React.FC = () => {
         {/* Decorative signature — handwritten reveal */}
         <div className="mt-10 sm:mt-12 pt-6 flex justify-center">
           <SignatureSVG
-            durationMs={2400}
-            startDelayMs={200}
-            edgeSoftness={5}
-            rootMargin="0px 0px -55% 0px"
-            threshold={0.05}
+            static
             blendMode="multiply"
             lightOpacity={0.85}
             darkOpacity={0.95}
