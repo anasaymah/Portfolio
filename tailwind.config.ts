@@ -143,6 +143,11 @@ export default {
             filter: "blur(6px)",
           },
         },
+        "ripple-ios": {
+          "0%": { transform: "scale(0)", opacity: "0.55" },
+          "60%": { opacity: "0.35" },
+          "100%": { transform: "scale(2.6)", opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -157,8 +162,9 @@ export default {
         "bounce-soft": "bounce-soft 2s ease-in-out infinite",
         "plane-fly": "plane-fly 3s ease-in-out infinite",
         "icon-pop": "icon-pop 0.4s ease-out",
-        "glass-pop-in": "glass-pop-in 380ms cubic-bezier(0.22, 1.2, 0.36, 1) both",
-        "glass-pop-out": "glass-pop-out 200ms cubic-bezier(0.4, 0, 1, 1) both",
+        "glass-pop-in": "glass-pop-in 280ms cubic-bezier(0.22, 1.2, 0.36, 1) both",
+        "glass-pop-out": "glass-pop-out 160ms cubic-bezier(0.4, 0, 1, 1) both",
+        "ripple-ios": "ripple-ios 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards",
       },
       transitionTimingFunction: {
         smooth: "cubic-bezier(0.22, 1, 0.36, 1)",
