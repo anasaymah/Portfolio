@@ -82,6 +82,25 @@ const socialIcons = [
   { icon: <YouTubeIcon className="w-5 h-5" />, href: YOUTUBE_URL, label: "YouTube" },
 ];
 
+// Shared iOS-28 liquid-glass surface (used across cards, buttons, container)
+const iosGlass: React.CSSProperties = {
+  background:
+    "linear-gradient(135deg, hsl(var(--card) / 0.55), hsl(var(--card) / 0.3))",
+  backdropFilter: "blur(22px) saturate(180%)",
+  WebkitBackdropFilter: "blur(22px) saturate(180%)",
+  boxShadow:
+    "0 1px 0 0 hsl(0 0% 100% / 0.35) inset, 0 -1px 0 0 hsl(var(--primary) / 0.06) inset, 0 8px 24px -12px hsl(var(--primary) / 0.18)",
+};
+
+const iosGlassStrong: React.CSSProperties = {
+  background:
+    "linear-gradient(135deg, hsl(var(--card) / 0.65), hsl(var(--card) / 0.4))",
+  backdropFilter: "blur(28px) saturate(180%)",
+  WebkitBackdropFilter: "blur(28px) saturate(180%)",
+  boxShadow:
+    "0 1px 0 0 hsl(0 0% 100% / 0.4) inset, 0 -1px 0 0 hsl(var(--primary) / 0.08) inset, 0 20px 50px -20px hsl(var(--primary) / 0.25)",
+};
+
 interface HoverActionsProps {
   card: LinkCard;
 }
@@ -148,21 +167,22 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
             spawnRipple(e);
             setOpen((v) => !v);
           }}
-          onBlur={() => {
-            // close when focus moves to another element outside
-            window.setTimeout(() => {
-              const active = document.activeElement;
-              if (!active?.closest("[data-radix-popper-content-wrapper]")) {
-                setOpen(false);
-              }
-            }, 0);
-          }}
           aria-label="More actions"
           aria-expanded={open}
-          className={`absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full overflow-hidden transition-all duration-300 ease-smooth ${
+          style={{
+            background: open
+              ? "linear-gradient(135deg, hsl(var(--card) / 0.55), hsl(var(--card) / 0.3))"
+              : undefined,
+            backdropFilter: open ? "blur(18px) saturate(180%)" : undefined,
+            WebkitBackdropFilter: open ? "blur(18px) saturate(180%)" : undefined,
+            boxShadow: open
+              ? "0 1px 0 0 hsl(0 0% 100% / 0.35) inset, 0 6px 18px -10px hsl(var(--primary) / 0.3)"
+              : undefined,
+          }}
+          className={`absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full overflow-hidden border transition-all duration-300 ease-smooth ${
             open
-              ? "text-primary bg-surface scale-110"
-              : "text-muted-foreground hover:text-primary hover:bg-surface"
+              ? "text-primary border-white/30 dark:border-white/10 scale-110"
+              : "text-muted-foreground border-transparent hover:text-primary hover:border-white/30 dark:hover:border-white/10"
           }`}
         >
           <MoreVertical className="w-4 h-4 relative z-10" />
@@ -187,15 +207,12 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
         sideOffset={10}
         onClick={stop}
         onOpenAutoFocus={(e) => e.preventDefault()}
-        data-side-origin="top-right"
+        onPointerDownOutside={() => setOpen(false)}
+        onFocusOutside={() => setOpen(false)}
+        onInteractOutside={() => setOpen(false)}
+        onEscapeKeyDown={() => setOpen(false)}
         style={{
-          background:
-            "linear-gradient(135deg, hsl(var(--card) / 0.55), hsl(var(--card) / 0.35))",
-          backdropFilter: "blur(28px) saturate(180%)",
-          WebkitBackdropFilter: "blur(28px) saturate(180%)",
-          boxShadow:
-            "0 20px 50px -20px hsl(var(--primary) / 0.25), 0 1px 0 0 hsl(0 0% 100% / 0.35) inset, 0 -1px 0 0 hsl(var(--primary) / 0.08) inset",
-          // origin auto-set per Radix side/align: end+left → top-right; start+left → bottom-right
+          ...iosGlassStrong,
           transformOrigin: "var(--popover-origin, top right)",
         }}
         className="w-56 p-1.5 rounded-[22px] border border-white/30 dark:border-white/10 data-[state=open]:animate-glass-pop-in data-[state=closed]:animate-glass-pop-out motion-reduce:!animate-none motion-reduce:transition-none [&[data-side=top][data-align=end]]:[--popover-origin:bottom_right] [&[data-side=top][data-align=start]]:[--popover-origin:bottom_left] [&[data-side=bottom][data-align=end]]:[--popover-origin:top_right] [&[data-side=bottom][data-align=start]]:[--popover-origin:top_left] [&[data-side=left]]:[--popover-origin:top_right] [&[data-side=right]]:[--popover-origin:top_left]"
@@ -272,15 +289,16 @@ export const PersonalLanding: React.FC = () => {
       </div>
 
       <div
-        className="w-full max-w-md bg-card/70 backdrop-blur-xl rounded-3xl p-5 sm:p-6 relative border border-border/60 z-10 animate-scale-in transition-colors duration-700 ease-smooth"
-        style={{ boxShadow: "var(--shadow-soft)" }}
+        className="w-full max-w-md rounded-3xl p-5 sm:p-6 relative border border-white/30 dark:border-white/10 z-10 animate-scale-in transition-colors duration-700 ease-smooth"
+        style={iosGlassStrong}
       >
         {/* Top bar */}
         <div className="flex items-center justify-between animate-fade-in" style={{ animationDelay: "100ms" }}>
           <a
             href="mailto:anasaymah@gmail.com"
             aria-label="Send email"
-            className="group w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:shadow-md active:scale-95"
+            style={iosGlass}
+            className="group w-10 h-10 rounded-full flex items-center justify-center border border-white/30 dark:border-white/10 transition-all duration-300 ease-smooth hover:scale-110 active:scale-95"
           >
             <MailIcon className="w-[18px] h-[18px] text-primary transition-colors duration-300 group-hover:text-accent" />
           </a>
@@ -288,7 +306,8 @@ export const PersonalLanding: React.FC = () => {
             <button
               onClick={() => setIsDark((v) => !v)}
               aria-label="Toggle night mode"
-              className="group w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95 overflow-hidden"
+              style={iosGlass}
+              className="group w-10 h-10 rounded-full flex items-center justify-center border border-white/30 dark:border-white/10 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent active:scale-95 overflow-hidden"
             >
               <span key={isDark ? "sun" : "moon"} className="inline-flex animate-scale-in">
                 {isDark ? (
@@ -318,7 +337,8 @@ export const PersonalLanding: React.FC = () => {
                 }
               }}
               aria-label="Share this site"
-              className="group w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95"
+              style={iosGlass}
+              className="group w-10 h-10 rounded-full flex items-center justify-center border border-white/30 dark:border-white/10 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent active:scale-95"
             >
               <Share className="w-5 h-5 text-primary transition-colors duration-300 group-hover:text-accent" />
             </button>
@@ -359,7 +379,8 @@ export const PersonalLanding: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.label}
-                className="w-10 h-10 rounded-full bg-surface/70 backdrop-blur flex items-center justify-center text-primary border border-border/50 shadow-sm transition-all duration-300 ease-smooth hover:scale-110 hover:shadow-md hover:text-accent hover:border-accent/40 active:scale-95"
+                style={iosGlass}
+                className="w-10 h-10 rounded-full flex items-center justify-center text-primary border border-white/30 dark:border-white/10 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:border-accent/40 active:scale-95"
               >
                 {s.icon}
               </a>
@@ -384,8 +405,8 @@ export const PersonalLanding: React.FC = () => {
               href={card.href}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ animationDelay: `${560 + i * 80}ms` }}
-              className="group relative bg-surface/80 backdrop-blur rounded-2xl p-3 flex items-center gap-3 border border-border/60 shadow-sm transition-all duration-300 ease-smooth hover:shadow-lg hover:-translate-y-1 hover:border-accent/50 hover:bg-surface active:scale-[0.98] animate-fade-in-up"
+              style={{ ...iosGlass, animationDelay: `${560 + i * 80}ms` }}
+              className="group relative rounded-2xl p-3 flex items-center gap-3 border border-white/30 dark:border-white/10 transition-all duration-300 ease-smooth hover:-translate-y-1 hover:border-accent/50 active:scale-[0.98] animate-fade-in-up"
             >
               {/* Icon tile — unified accent gradient */}
               <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center text-accent-foreground bg-gradient-to-br from-accent to-accent/70 shadow-sm transition-all duration-300 ease-smooth group-hover:scale-105 group-hover:shadow-md">
