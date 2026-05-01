@@ -8,6 +8,8 @@ export type SignatureBlendMode = React.CSSProperties["mixBlendMode"];
 
 export interface SignatureSVGProps {
   className?: string;
+  /** Render fully visible without any animation. Default false. */
+  static?: boolean;
   /** Override auto-detection and force play state. */
   play?: boolean;
   /** Bumping this value re-triggers the writing animation (works with `play`). */
@@ -72,6 +74,7 @@ const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
 
 export const SignatureSVG: React.FC<SignatureSVGProps> = ({
   className,
+  static: isStatic = false,
   play,
   replay,
   source = "png",
@@ -129,6 +132,7 @@ export const SignatureSVG: React.FC<SignatureSVGProps> = ({
 
   // IntersectionObserver: trigger play state when in configured zone.
   useEffect(() => {
+    if (isStatic) return;
     if (scrubOnScroll) return; // scrub mode handles its own listener
     if (!autoPlayInView || play !== undefined) return;
     const node = wrapperRef.current;
@@ -160,6 +164,7 @@ export const SignatureSVG: React.FC<SignatureSVGProps> = ({
 
   // Scroll-scrub mode.
   useEffect(() => {
+    if (isStatic) return;
     if (!scrubOnScroll) return;
     const node = wrapperRef.current;
     if (!node) return;
@@ -210,6 +215,7 @@ export const SignatureSVG: React.FC<SignatureSVGProps> = ({
 
   // Time-based writing animation (with optional loop).
   useEffect(() => {
+    if (isStatic) return;
     if (scrubOnScroll) return;
     if (!isPlaying) return;
     const img = imgRef.current;
@@ -290,7 +296,12 @@ export const SignatureSVG: React.FC<SignatureSVGProps> = ({
   const soft = Math.max(0, edgeSoftness);
   const maskGradient = `linear-gradient(to right, #000 calc(var(--sig-pct, 0%) - ${soft}%), transparent var(--sig-pct, 0%))`;
   const src = source === "svg" ? signatureSvgUrl : signaturePngUrl;
-  const opacityValue = scrubOnScroll || isPlaying ? (isDark ? darkOpacity : lightOpacity) : 0;
+  const themeOpacity = isDark ? darkOpacity : lightOpacity;
+  const opacityValue = isStatic
+    ? themeOpacity
+    : scrubOnScroll || isPlaying
+      ? themeOpacity
+      : 0;
 
   return (
     <div ref={wrapperRef} className={className} aria-hidden="true">
@@ -304,15 +315,17 @@ export const SignatureSVG: React.FC<SignatureSVGProps> = ({
         className="w-full h-auto select-none pointer-events-none"
         style={{
           opacity: fading ? 0 : opacityValue,
-          transition: fading
-            ? `opacity ${fadeOutMs}ms ease-in`
-            : `opacity 240ms ease-out`,
-          WebkitMaskImage: maskGradient,
-          maskImage: maskGradient,
+          transition: isStatic
+            ? "none"
+            : fading
+              ? `opacity ${fadeOutMs}ms ease-in`
+              : `opacity 240ms ease-out`,
+          WebkitMaskImage: isStatic ? undefined : maskGradient,
+          maskImage: isStatic ? undefined : maskGradient,
           WebkitMaskRepeat: "no-repeat",
           maskRepeat: "no-repeat",
           mixBlendMode: blendMode,
-          willChange: done ? "auto" : "mask-image, opacity",
+          willChange: isStatic || done ? "auto" : "mask-image, opacity",
           transform: "translateZ(0)",
           backfaceVisibility: "hidden",
         }}
