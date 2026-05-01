@@ -132,6 +132,7 @@ export const SignatureSVG: React.FC<SignatureSVGProps> = ({
 
   // IntersectionObserver: trigger play state when in configured zone.
   useEffect(() => {
+    if (isStatic) return;
     if (scrubOnScroll) return; // scrub mode handles its own listener
     if (!autoPlayInView || play !== undefined) return;
     const node = wrapperRef.current;
