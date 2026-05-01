@@ -86,12 +86,36 @@ interface HoverActionsProps {
   card: LinkCard;
 }
 
+interface Ripple {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+}
+
 const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
   const [open, setOpen] = useState(false);
+  const [ripples, setRipples] = useState<Ripple[]>([]);
 
   const stop = (e: React.SyntheticEvent) => {
     e.preventDefault();
     e.stopPropagation();
+  };
+
+  const spawnRipple = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const reduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const id = Date.now() + Math.random();
+    const x = e.clientX - rect.left - size / 2;
+    const y = e.clientY - rect.top - size / 2;
+    setRipples((prev) => [...prev, { id, x, y, size }]);
+    window.setTimeout(() => {
+      setRipples((prev) => prev.filter((r) => r.id !== id));
+    }, 650);
   };
 
   const handleShare = async (e: React.MouseEvent) => {
@@ -121,17 +145,40 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
           type="button"
           onClick={(e) => {
             stop(e);
+            spawnRipple(e);
             setOpen((v) => !v);
+          }}
+          onBlur={() => {
+            // close when focus moves to another element outside
+            window.setTimeout(() => {
+              const active = document.activeElement;
+              if (!active?.closest("[data-radix-popper-content-wrapper]")) {
+                setOpen(false);
+              }
+            }, 0);
           }}
           aria-label="More actions"
           aria-expanded={open}
-          className={`absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full transition-all duration-300 ease-smooth ${
+          className={`absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full overflow-hidden transition-all duration-300 ease-smooth ${
             open
               ? "text-primary bg-surface scale-110"
               : "text-muted-foreground hover:text-primary hover:bg-surface"
           }`}
         >
-          <MoreVertical className="w-4 h-4" />
+          <MoreVertical className="w-4 h-4 relative z-10" />
+          {ripples.map((r) => (
+            <span
+              key={r.id}
+              aria-hidden
+              className="absolute rounded-full bg-primary/40 dark:bg-white/40 pointer-events-none animate-ripple-ios motion-reduce:hidden"
+              style={{
+                left: r.x,
+                top: r.y,
+                width: r.size,
+                height: r.size,
+              }}
+            />
+          ))}
         </button>
       </PopoverTrigger>
       <PopoverContent
@@ -140,6 +187,7 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
         sideOffset={10}
         onClick={stop}
         onOpenAutoFocus={(e) => e.preventDefault()}
+        data-side-origin="top-right"
         style={{
           background:
             "linear-gradient(135deg, hsl(var(--card) / 0.55), hsl(var(--card) / 0.35))",
@@ -147,9 +195,10 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
           WebkitBackdropFilter: "blur(28px) saturate(180%)",
           boxShadow:
             "0 20px 50px -20px hsl(var(--primary) / 0.25), 0 1px 0 0 hsl(0 0% 100% / 0.35) inset, 0 -1px 0 0 hsl(var(--primary) / 0.08) inset",
-          transformOrigin: "top right",
+          // origin auto-set per Radix side/align: end+left → top-right; start+left → bottom-right
+          transformOrigin: "var(--popover-origin, top right)",
         }}
-        className="w-56 p-1.5 rounded-[22px] border border-white/30 dark:border-white/10 data-[state=open]:animate-glass-pop-in data-[state=closed]:animate-glass-pop-out"
+        className="w-56 p-1.5 rounded-[22px] border border-white/30 dark:border-white/10 data-[state=open]:animate-glass-pop-in data-[state=closed]:animate-glass-pop-out motion-reduce:!animate-none motion-reduce:transition-none [&[data-side=top][data-align=end]]:[--popover-origin:bottom_right] [&[data-side=top][data-align=start]]:[--popover-origin:bottom_left] [&[data-side=bottom][data-align=end]]:[--popover-origin:top_right] [&[data-side=bottom][data-align=start]]:[--popover-origin:top_left] [&[data-side=left]]:[--popover-origin:top_right] [&[data-side=right]]:[--popover-origin:top_left]"
       >
         <div className="flex flex-col">
           <a
@@ -163,7 +212,9 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
             className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-[13px] font-medium text-primary hover:bg-white/40 dark:hover:bg-white/10 transition-colors"
           >
             <span>Open</span>
-            <ExternalLink className="w-4 h-4 text-muted-foreground" />
+            <span className="w-7 h-7 rounded-full flex items-center justify-center bg-primary/10 dark:bg-white/15 text-primary dark:text-white ring-1 ring-inset ring-primary/15 dark:ring-white/20">
+              <ExternalLink className="w-3.5 h-3.5" />
+            </span>
           </a>
           <div className="h-px bg-white/30 dark:bg-white/10 mx-2" />
           <button
@@ -172,7 +223,9 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
             className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-[13px] font-medium text-primary hover:bg-white/40 dark:hover:bg-white/10 transition-colors text-left"
           >
             <span>Share</span>
-            <Share className="w-4 h-4 text-muted-foreground" />
+            <span className="w-7 h-7 rounded-full flex items-center justify-center bg-primary/10 dark:bg-white/15 text-primary dark:text-white ring-1 ring-inset ring-primary/15 dark:ring-white/20">
+              <Share className="w-3.5 h-3.5" />
+            </span>
           </button>
           <div className="h-px bg-white/30 dark:bg-white/10 mx-2" />
           <a
@@ -186,7 +239,9 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
             className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-[13px] font-semibold text-accent hover:bg-white/40 dark:hover:bg-white/10 transition-colors"
           >
             <span>Follow</span>
-            <UserPlus className="w-4 h-4" />
+            <span className="w-7 h-7 rounded-full flex items-center justify-center bg-accent/15 dark:bg-accent/30 text-accent dark:text-white ring-1 ring-inset ring-accent/25 dark:ring-white/20">
+              <UserPlus className="w-3.5 h-3.5" />
+            </span>
           </a>
         </div>
       </PopoverContent>
