@@ -296,15 +296,16 @@ export const PersonalLanding: React.FC = () => {
       </div>
 
       <div
-        className="w-full max-w-md bg-card/70 backdrop-blur-xl rounded-3xl p-5 sm:p-6 relative border border-border/60 z-10 animate-scale-in transition-colors duration-700 ease-smooth"
-        style={{ boxShadow: "var(--shadow-soft)" }}
+        className="w-full max-w-md rounded-3xl p-5 sm:p-6 relative border border-white/30 dark:border-white/10 z-10 animate-scale-in transition-colors duration-700 ease-smooth"
+        style={iosGlassStrong}
       >
         {/* Top bar */}
         <div className="flex items-center justify-between animate-fade-in" style={{ animationDelay: "100ms" }}>
           <a
             href="mailto:anasaymah@gmail.com"
             aria-label="Send email"
-            className="group w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:shadow-md active:scale-95"
+            style={iosGlass}
+            className="group w-10 h-10 rounded-full flex items-center justify-center border border-white/30 dark:border-white/10 transition-all duration-300 ease-smooth hover:scale-110 active:scale-95"
           >
             <MailIcon className="w-[18px] h-[18px] text-primary transition-colors duration-300 group-hover:text-accent" />
           </a>
@@ -312,7 +313,8 @@ export const PersonalLanding: React.FC = () => {
             <button
               onClick={() => setIsDark((v) => !v)}
               aria-label="Toggle night mode"
-              className="group w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95 overflow-hidden"
+              style={iosGlass}
+              className="group w-10 h-10 rounded-full flex items-center justify-center border border-white/30 dark:border-white/10 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent active:scale-95 overflow-hidden"
             >
               <span key={isDark ? "sun" : "moon"} className="inline-flex animate-scale-in">
                 {isDark ? (
@@ -342,7 +344,8 @@ export const PersonalLanding: React.FC = () => {
                 }
               }}
               aria-label="Share this site"
-              className="group w-10 h-10 rounded-full bg-surface/80 backdrop-blur flex items-center justify-center shadow-sm border border-border/50 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:shadow-md active:scale-95"
+              style={iosGlass}
+              className="group w-10 h-10 rounded-full flex items-center justify-center border border-white/30 dark:border-white/10 transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent active:scale-95"
             >
               <Share className="w-5 h-5 text-primary transition-colors duration-300 group-hover:text-accent" />
             </button>
