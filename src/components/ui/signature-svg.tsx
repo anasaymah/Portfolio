@@ -8,6 +8,8 @@ export type SignatureBlendMode = React.CSSProperties["mixBlendMode"];
 
 export interface SignatureSVGProps {
   className?: string;
+  /** Render fully visible without any animation. Default false. */
+  static?: boolean;
   /** Override auto-detection and force play state. */
   play?: boolean;
   /** Bumping this value re-triggers the writing animation (works with `play`). */
