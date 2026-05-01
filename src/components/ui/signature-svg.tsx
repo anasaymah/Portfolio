@@ -215,6 +215,7 @@ export const SignatureSVG: React.FC<SignatureSVGProps> = ({
 
   // Time-based writing animation (with optional loop).
   useEffect(() => {
+    if (isStatic) return;
     if (scrubOnScroll) return;
     if (!isPlaying) return;
     const img = imgRef.current;
