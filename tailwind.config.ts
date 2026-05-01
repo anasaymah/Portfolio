@@ -143,6 +143,11 @@ export default {
             filter: "blur(6px)",
           },
         },
+        "ripple-ios": {
+          "0%": { transform: "scale(0)", opacity: "0.55" },
+          "60%": { opacity: "0.35" },
+          "100%": { transform: "scale(2.6)", opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
