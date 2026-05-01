@@ -188,6 +188,10 @@ const HoverActions: React.FC<HoverActionsProps> = ({ card }) => {
         sideOffset={10}
         onClick={stop}
         onOpenAutoFocus={(e) => e.preventDefault()}
+        onPointerDownOutside={() => setOpen(false)}
+        onFocusOutside={() => setOpen(false)}
+        onInteractOutside={() => setOpen(false)}
+        onEscapeKeyDown={() => setOpen(false)}
         data-side-origin="top-right"
         style={{
           background:
