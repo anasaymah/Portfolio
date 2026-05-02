@@ -10,6 +10,8 @@ export interface SignatureSVGProps {
   className?: string;
   /** Render fully visible without any animation. Default false. */
   static?: boolean;
+  /** Disable mask-image entirely (useful for assets that don't support masking). Default false. */
+  noMask?: boolean;
   /** Override auto-detection and force play state. */
   play?: boolean;
   /** Bumping this value re-triggers the writing animation (works with `play`). */
@@ -75,6 +77,7 @@ const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
 export const SignatureSVG: React.FC<SignatureSVGProps> = ({
   className,
   static: isStatic = false,
+  noMask = false,
   play,
   replay,
   source = "png",
@@ -294,7 +297,8 @@ export const SignatureSVG: React.FC<SignatureSVGProps> = ({
   ]);
 
   const soft = Math.max(0, edgeSoftness);
-  const maskGradient = `linear-gradient(to right, #000 calc(var(--sig-pct, 0%) - ${soft}%), transparent var(--sig-pct, 0%))`;
+  const useMask = !isStatic && !noMask;
+  const maskGradient = useMask ? `linear-gradient(to right, #000 calc(var(--sig-pct, 0%) - ${soft}%), transparent var(--sig-pct, 0%))` : undefined;
   const src = source === "svg" ? signatureSvgUrl : signaturePngUrl;
   const themeOpacity = isDark ? darkOpacity : lightOpacity;
   const opacityValue = isStatic
@@ -320,12 +324,12 @@ export const SignatureSVG: React.FC<SignatureSVGProps> = ({
             : fading
               ? `opacity ${fadeOutMs}ms ease-in`
               : `opacity 240ms ease-out`,
-          WebkitMaskImage: isStatic ? undefined : maskGradient,
-          maskImage: isStatic ? undefined : maskGradient,
-          WebkitMaskRepeat: "no-repeat",
-          maskRepeat: "no-repeat",
+          WebkitMaskImage: maskGradient,
+          maskImage: maskGradient,
+          WebkitMaskRepeat: useMask ? "no-repeat" : undefined,
+          maskRepeat: useMask ? "no-repeat" : undefined,
           mixBlendMode: blendMode,
-          willChange: isStatic || done ? "auto" : "mask-image, opacity",
+          willChange: isStatic || noMask || done ? "auto" : "mask-image, opacity",
           transform: "translateZ(0)",
           backfaceVisibility: "hidden",
         }}
