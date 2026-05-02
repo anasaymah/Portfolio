@@ -176,6 +176,8 @@ export default {
         "spin-slow": "spin-slow 8s linear infinite",
         "bounce-soft": "bounce-soft 2s ease-in-out infinite",
         "plane-fly": "plane-fly 3s ease-in-out infinite",
+        "plane-takeoff": "plane-takeoff 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards",
+        "plane-return": "plane-return 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards",
         "icon-pop": "icon-pop 0.4s ease-out",
         "glass-pop-in": "glass-pop-in 280ms cubic-bezier(0.22, 1.2, 0.36, 1) both",
         "glass-pop-out": "glass-pop-out 160ms cubic-bezier(0.4, 0, 1, 1) both",
