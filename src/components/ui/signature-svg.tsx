@@ -296,6 +296,7 @@ export const SignatureSVG: React.FC<SignatureSVGProps> = ({
     onComplete,
   ]);
 
+  const soft = Math.max(0, edgeSoftness);
   const useMask = !isStatic && !noMask;
   const maskGradient = useMask ? `linear-gradient(to right, #000 calc(var(--sig-pct, 0%) - ${soft}%), transparent var(--sig-pct, 0%))` : undefined;
   const src = source === "svg" ? signatureSvgUrl : signaturePngUrl;
