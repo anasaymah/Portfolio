@@ -98,6 +98,13 @@ All colors MUST be HSL.
     --gradient-warm: linear-gradient(160deg, hsl(25 22% 10%), hsl(20 18% 6%));
     --shadow-soft: 0 10px 30px -12px hsl(0 0% 0% / 0.6);
 
+    /* Glass tokens — dark mode overrides */
+    --glass-border: 0 0% 100% / 0.14;
+    --glass-highlight: 0 0% 100% / 0.12;
+    --glass-shadow: 0 0% 0% / 0.5;
+    --glass-icon-bg: 0 0% 100% / 0.12;
+    --glass-icon-ring: 0 0% 100% / 0.20;
+
     --sidebar-background: 25 18% 12%;
     --sidebar-foreground: 36 20% 80%;
     --sidebar-primary: 35 70% 60%;
