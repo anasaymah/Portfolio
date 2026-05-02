@@ -10,6 +10,8 @@ export interface SignatureSVGProps {
   className?: string;
   /** Render fully visible without any animation. Default false. */
   static?: boolean;
+  /** Disable mask-image entirely (useful for assets that don't support masking). Default false. */
+  noMask?: boolean;
   /** Override auto-detection and force play state. */
   play?: boolean;
   /** Bumping this value re-triggers the writing animation (works with `play`). */
