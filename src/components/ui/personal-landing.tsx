@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Asterisk, Share, MoreVertical, Plane, Sun, Moon, ExternalLink, UserPlus } from "lucide-react";
+import { Share, MoreVertical, Plane, Sun, Moon, ExternalLink, UserPlus, Copy, Link2, MessageCircle } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -49,6 +49,154 @@ const socialIcons = [
 
 interface Ripple { id: number; x: number; y: number; size: number; }
 
+/* ── Plane takeoff animation component ── */
+const TakeoffPlane: React.FC = () => {
+  const [phase, setPhase] = useState<"idle" | "takeoff" | "returning">("idle");
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    const loop = () => {
+      setPhase("takeoff");
+      timeoutRef.current = setTimeout(() => {
+        setPhase("returning");
+        timeoutRef.current = setTimeout(() => {
+          setPhase("idle");
+          timeoutRef.current = setTimeout(loop, 2500);
+        }, 900);
+      }, 1500);
+    };
+    timeoutRef.current = setTimeout(loop, 1800);
+    return () => { if (timeoutRef.current) clearTimeout(timeoutRef.current); };
+  }, []);
+
+  return (
+    <span className="inline-flex relative motion-reduce:animate-none">
+      <Plane
+        className={`w-4 h-4 text-accent ${
+          phase === "takeoff" ? "animate-plane-takeoff" :
+          phase === "returning" ? "animate-plane-return" :
+          "animate-plane-fly"
+        }`}
+        fill="currentColor"
+        strokeWidth={0}
+      />
+      {/* Exhaust trail */}
+      {phase === "takeoff" && (
+        <span className="absolute left-0 bottom-0 w-3 h-[2px] rounded-full bg-accent/40 animate-fade-in" style={{ filter: "blur(2px)" }} />
+      )}
+    </span>
+  );
+};
+
+/* ── Share popover (top bar) ── */
+const SharePopover: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const url = typeof window !== "undefined" ? window.location.href : "";
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(url);
+      toast({ title: "Link copied!", description: url });
+    } catch { /* fail silently */ }
+    setOpen(false);
+  };
+
+  const handleNativeShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: "Anas Ayman", text: "Check out Anas Ayman's links", url });
+      }
+    } catch { /* cancelled */ }
+    setOpen(false);
+  };
+
+  const handleWhatsApp = () => {
+    window.open(`https://wa.me/?text=${encodeURIComponent("Check out Anas Ayman's links: " + url)}`, "_blank");
+    setOpen(false);
+  };
+
+  const handleTwitter = () => {
+    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent("Check out Anas Ayman's links")}`, "_blank");
+    setOpen(false);
+  };
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === "Tab") {
+      const container = contentRef.current;
+      if (!container) return;
+      const focusable = container.querySelectorAll<HTMLElement>('button:not([disabled])');
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  }, []);
+
+  const menuItemClass = "flex items-center gap-3 px-3 py-2.5 rounded-2xl text-[13px] font-medium text-primary dark:text-foreground hover:bg-primary/5 dark:hover:bg-white/10 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring w-full text-left";
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button
+          aria-label="Share this site"
+          className="ios-glass glass-border group w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent active:scale-95"
+        >
+          <Share className="w-5 h-5 text-primary transition-colors duration-300 group-hover:text-accent" />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent
+        ref={contentRef}
+        align="end"
+        side="bottom"
+        sideOffset={10}
+        onKeyDown={handleKeyDown}
+        onOpenAutoFocus={(e) => {
+          e.preventDefault();
+          const first = contentRef.current?.querySelector<HTMLElement>("button");
+          first?.focus();
+        }}
+        onCloseAutoFocus={(e) => e.preventDefault()}
+        onPointerDownOutside={() => setOpen(false)}
+        onFocusOutside={() => setOpen(false)}
+        onInteractOutside={() => setOpen(false)}
+        onEscapeKeyDown={() => setOpen(false)}
+        style={{ transformOrigin: "var(--popover-origin, top right)" }}
+        className="ios-glass-strong w-56 p-1.5 rounded-[22px] glass-border data-[state=open]:animate-glass-pop-in data-[state=closed]:animate-glass-pop-out motion-reduce:!animate-none [&[data-side=bottom][data-align=end]]:[--popover-origin:top_right] [&[data-side=bottom][data-align=start]]:[--popover-origin:top_left] [&[data-side=top][data-align=end]]:[--popover-origin:bottom_right]"
+      >
+        <div className="flex flex-col" role="menu">
+          <button type="button" role="menuitem" onClick={handleCopy} className={menuItemClass}>
+            <span className="glass-icon-circle"><Copy className="w-3.5 h-3.5" /></span>
+            <span>Copy Link</span>
+          </button>
+          <div className="h-px bg-primary/10 dark:bg-white/10 mx-2" />
+          {typeof navigator !== "undefined" && !!navigator.share && (
+            <>
+              <button type="button" role="menuitem" onClick={handleNativeShare} className={menuItemClass}>
+                <span className="glass-icon-circle"><Share className="w-3.5 h-3.5" /></span>
+                <span>Share via…</span>
+              </button>
+              <div className="h-px bg-primary/10 dark:bg-white/10 mx-2" />
+            </>
+          )}
+          <button type="button" role="menuitem" onClick={handleWhatsApp} className={menuItemClass}>
+            <span className="glass-icon-circle"><MessageCircle className="w-3.5 h-3.5" /></span>
+            <span>WhatsApp</span>
+          </button>
+          <div className="h-px bg-primary/10 dark:bg-white/10 mx-2" />
+          <button type="button" role="menuitem" onClick={handleTwitter} className={menuItemClass}>
+            <span className="glass-icon-circle"><Link2 className="w-3.5 h-3.5" /></span>
+            <span>Twitter / X</span>
+          </button>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
+/* ── Card HoverActions (3-dot menu) ── */
 const HoverActions: React.FC<{ card: LinkCard }> = ({ card }) => {
   const [open, setOpen] = useState(false);
   const [ripples, setRipples] = useState<Ripple[]>([]);
@@ -66,38 +214,22 @@ const HoverActions: React.FC<{ card: LinkCard }> = ({ card }) => {
     setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 650);
   };
 
-  // Focus trap: cycle Tab within popover items when open
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (!open) return;
     const container = contentRef.current;
     if (!container) return;
-
     if (e.key === "Tab") {
-      const focusable = container.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      );
+      const focusable = container.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
       if (focusable.length === 0) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
-
-      if (e.shiftKey) {
-        if (document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        }
-      } else {
-        if (document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     }
   }, [open]);
 
-  // Restore focus to trigger when closing
   useEffect(() => {
     if (!open && triggerRef.current) {
-      // small delay so Radix finishes its own focus management
       const t = setTimeout(() => triggerRef.current?.focus(), 16);
       return () => clearTimeout(t);
     }
@@ -125,7 +257,7 @@ const HoverActions: React.FC<{ card: LinkCard }> = ({ card }) => {
           className={`absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full overflow-hidden glass-border transition-all duration-300 ease-smooth ${
             open
               ? "ios-glass text-primary scale-110"
-              : "text-muted-foreground border-transparent hover:text-primary hover:border-white/30 dark:hover:border-white/[0.14]"
+              : "text-muted-foreground border-transparent hover:text-primary"
           }`}
         >
           <MoreVertical className="w-4 h-4 relative z-10" />
@@ -148,7 +280,6 @@ const HoverActions: React.FC<{ card: LinkCard }> = ({ card }) => {
         onKeyDown={handleKeyDown}
         onOpenAutoFocus={(e) => {
           e.preventDefault();
-          // Focus first item in menu
           const first = contentRef.current?.querySelector<HTMLElement>('a[href], button');
           first?.focus();
         }}
@@ -167,29 +298,29 @@ const HoverActions: React.FC<{ card: LinkCard }> = ({ card }) => {
             rel="noopener noreferrer"
             role="menuitem"
             onClick={(e) => { e.stopPropagation(); setOpen(false); }}
-            className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-[13px] font-medium text-primary dark:text-foreground hover:bg-white/40 dark:hover:bg-white/10 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-[13px] font-medium text-primary dark:text-foreground hover:bg-primary/5 dark:hover:bg-white/10 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <span>Open</span>
             <span className="glass-icon-circle"><ExternalLink className="w-3.5 h-3.5" /></span>
           </a>
-          <div className="h-px bg-white/30 dark:bg-white/10 mx-2" />
+          <div className="h-px bg-primary/10 dark:bg-white/10 mx-2" />
           <button
             type="button"
             role="menuitem"
             onClick={handleShare}
-            className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-[13px] font-medium text-primary dark:text-foreground hover:bg-white/40 dark:hover:bg-white/10 transition-colors text-left outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-[13px] font-medium text-primary dark:text-foreground hover:bg-primary/5 dark:hover:bg-white/10 transition-colors text-left outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <span>Share</span>
             <span className="glass-icon-circle"><Share className="w-3.5 h-3.5" /></span>
           </button>
-          <div className="h-px bg-white/30 dark:bg-white/10 mx-2" />
+          <div className="h-px bg-primary/10 dark:bg-white/10 mx-2" />
           <a
             href={card.href}
             target="_blank"
             rel="noopener noreferrer"
             role="menuitem"
             onClick={(e) => { e.stopPropagation(); setOpen(false); }}
-            className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-[13px] font-semibold text-accent hover:bg-white/40 dark:hover:bg-white/10 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-[13px] font-semibold text-accent hover:bg-primary/5 dark:hover:bg-white/10 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <span>Follow</span>
             <span className="glass-icon-circle-accent"><UserPlus className="w-3.5 h-3.5" /></span>
@@ -216,9 +347,9 @@ export const PersonalLanding: React.FC = () => {
     >
       {/* Foggy blurred background blobs */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-32 -left-24 w-[28rem] h-[28rem] rounded-full bg-accent/40 blur-3xl animate-float-slow ios-glass" />
-        <div className="absolute top-1/3 -right-32 w-[26rem] h-[26rem] rounded-full bg-primary/30 blur-3xl animate-float-slower ios-glass" />
-        <div className="absolute bottom-[-8rem] left-1/4 w-[24rem] h-[24rem] rounded-full bg-accent/25 blur-3xl animate-float-slow ios-glass" />
+        <div className="absolute -top-32 -left-24 w-[28rem] h-[28rem] rounded-full bg-accent/40 blur-3xl animate-float-slow" />
+        <div className="absolute top-1/3 -right-32 w-[26rem] h-[26rem] rounded-full bg-primary/30 blur-3xl animate-float-slower" />
+        <div className="absolute bottom-[-8rem] left-1/4 w-[24rem] h-[24rem] rounded-full bg-accent/25 blur-3xl animate-float-slow" />
       </div>
 
       <div className="ios-glass-strong glass-border w-full max-w-md rounded-3xl p-5 sm:p-6 relative z-10 animate-scale-in transition-colors duration-700 ease-smooth">
@@ -241,19 +372,7 @@ export const PersonalLanding: React.FC = () => {
                 {isDark ? <Sun className="w-5 h-5 text-primary" /> : <Moon className="w-5 h-5 text-primary" />}
               </span>
             </button>
-            <button
-              onClick={async () => {
-                const url = window.location.href;
-                try {
-                  if (navigator.share) await navigator.share({ title: "Anas Ayman", text: "Check out Anas Ayman's links", url });
-                  else { await navigator.clipboard.writeText(url); alert("Link copied to clipboard!"); }
-                } catch { /* cancelled */ }
-              }}
-              aria-label="Share this site"
-              className="ios-glass glass-border group w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent active:scale-95"
-            >
-              <Share className="w-5 h-5 text-primary transition-colors duration-300 group-hover:text-accent" />
-            </button>
+            <SharePopover />
           </div>
         </div>
 
@@ -285,16 +404,16 @@ export const PersonalLanding: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.label}
-                className="ios-glass glass-border w-10 h-10 rounded-full flex items-center justify-center text-primary transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent hover:border-accent/40 active:scale-95"
+                className="ios-glass glass-border w-10 h-10 rounded-full flex items-center justify-center text-primary transition-all duration-300 ease-smooth hover:scale-110 hover:text-accent active:scale-95"
               >
                 {s.icon}
               </a>
             ))}
           </div>
 
-          {/* Tagline */}
+          {/* Tagline with animated plane */}
           <p className="mt-8 text-base font-bold text-primary flex items-center gap-2 animate-fade-in-up" style={{ animationDelay: "480ms" }}>
-            Forward to a better future <Plane className="w-4 h-4 text-accent" fill="currentColor" strokeWidth={0} />
+            Forward to a better future <TakeoffPlane />
           </p>
         </div>
 
