@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Share, MoreVertical, Plane, Sun, Moon, ExternalLink, UserPlus, Copy, Link2, MessageCircle, Phone } from "lucide-react";
+import { Share, MoreVertical, Plane, Sun, Moon, ExternalLink, UserPlus, Copy, Link2, MessageCircle } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "@/hooks/use-toast";
 import {
