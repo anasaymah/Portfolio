@@ -39,7 +39,7 @@ const linkCards: LinkCard[] = [
   { title: "LinkedIn", subtitle: "in/anasayman", icon: <LinkedInIcon className="w-6 h-6" />, href: LINKEDIN_URL },
   { title: "Threads", subtitle: "@anasaymah", icon: <ThreadsIcon className="w-6 h-6" />, href: THREADS_URL },
   { title: "GitHub", subtitle: "@anasaymah", icon: <GitHubIcon className="w-6 h-6 dark:invert" />, href: GITHUB_URL },
-  { title: "WhatsApp", subtitle: "Chat with me", icon: <Phone className="w-6 h-6" />, href: WHATSAPP_URL },
+  { title: "WhatsApp", subtitle: "Message me", icon: <MessageCircle className="w-6 h-6" />, href: WHATSAPP_URL },
 ];
 
 const socialIcons = [
