@@ -298,10 +298,10 @@ const HoverActions: React.FC<{ card: LinkCard }> = ({ card }) => {
           onClick={(e) => { stop(e); spawnRipple(e); setOpen((v) => !v); }}
           aria-label="More actions"
           aria-expanded={open}
-          className={`absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full overflow-hidden glass-border transition-all duration-300 ease-smooth ${
+          className={`absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full overflow-hidden transition-all duration-300 ease-smooth ${
             open
-              ? "ios-glass text-primary scale-110"
-              : "text-muted-foreground border-transparent hover:text-primary"
+              ? "ios-glass glass-border text-primary scale-110"
+              : "text-muted-foreground border border-transparent hover:text-primary"
           }`}
         >
           <MoreVertical className="w-4 h-4 relative z-10" />
