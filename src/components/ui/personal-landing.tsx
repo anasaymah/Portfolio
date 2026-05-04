@@ -205,10 +205,16 @@ const SharePopover: React.FC = () => {
         className="ios-glass-strong w-56 p-1.5 rounded-[22px] glass-border data-[state=open]:animate-glass-pop-in data-[state=closed]:animate-glass-pop-out motion-reduce:!animate-none [&[data-side=bottom][data-align=end]]:[--popover-origin:top_right] [&[data-side=bottom][data-align=start]]:[--popover-origin:top_left] [&[data-side=top][data-align=end]]:[--popover-origin:bottom_right]"
       >
         <div className="flex flex-col" role="menu">
-          <button type="button" role="menuitem" onClick={handleCopy} className={menuItemClass}>
-            <span className="glass-icon-circle"><Copy className="w-3.5 h-3.5" /></span>
-            <span>Copy Link</span>
-          </button>
+          <div className="flex flex-col gap-1 px-3 py-2.5 rounded-2xl">
+            <div className="flex items-center gap-3">
+              <span className="glass-icon-circle"><Link2 className="w-3.5 h-3.5" /></span>
+              <span className="text-[13px] font-medium text-primary dark:text-foreground truncate flex-1">{url}</span>
+            </div>
+            <button type="button" role="menuitem" onClick={handleCopy} className="mt-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-[13px] font-semibold text-accent-foreground bg-accent/90 hover:bg-accent transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring">
+              <Copy className="w-3.5 h-3.5" />
+              <span>Copy Link</span>
+            </button>
+          </div>
           <div className="h-px bg-primary/10 dark:bg-white/10 mx-2" />
           {typeof navigator !== "undefined" && !!navigator.share && (
             <>
