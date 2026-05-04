@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Share, MoreVertical, Plane, Sun, Moon, ExternalLink, UserPlus, Copy, Link2, MessageCircle } from "lucide-react";
+import { Share, MoreVertical, Plane, Sun, Moon, ExternalLink, UserPlus, Copy, Link2, MessageCircle, Phone } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -29,6 +29,7 @@ const LINKEDIN_URL = "https://linkedin.com/in/anasayman";
 const YOUTUBE_URL = "https://www.youtube.com/@AnasAymah";
 const GITHUB_URL = "https://github.com/anasaymah";
 const THREADS_URL = "https://www.threads.net/@anasaymah";
+const WHATSAPP_URL = "https://wa.me/YOUR_NUMBER";
 
 const linkCards: LinkCard[] = [
   { title: "Instagram", subtitle: "@anasaymah", icon: <InstagramIcon className="w-6 h-6" />, href: INSTAGRAM_URL },
@@ -37,7 +38,8 @@ const linkCards: LinkCard[] = [
   { title: "Facebook", subtitle: "Anas Ayman", icon: <FacebookIcon className="w-6 h-6" />, href: FACEBOOK_URL },
   { title: "LinkedIn", subtitle: "in/anasayman", icon: <LinkedInIcon className="w-6 h-6" />, href: LINKEDIN_URL },
   { title: "Threads", subtitle: "@anasaymah", icon: <ThreadsIcon className="w-6 h-6" />, href: THREADS_URL },
-  { title: "GitHub", subtitle: "@anasaymah", icon: <GitHubIcon className="w-6 h-6" />, href: GITHUB_URL },
+  { title: "GitHub", subtitle: "@anasaymah", icon: <GitHubIcon className="w-6 h-6 dark:invert" />, href: GITHUB_URL },
+  { title: "WhatsApp", subtitle: "Chat with me", icon: <Phone className="w-6 h-6" />, href: WHATSAPP_URL },
 ];
 
 const socialIcons = [
