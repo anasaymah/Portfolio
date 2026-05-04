@@ -29,7 +29,7 @@ const LINKEDIN_URL = "https://linkedin.com/in/anasayman";
 const YOUTUBE_URL = "https://www.youtube.com/@AnasAymah";
 const GITHUB_URL = "https://github.com/anasaymah";
 const THREADS_URL = "https://www.threads.net/@anasaymah";
-const WHATSAPP_URL = "https://wa.me/YOUR_NUMBER";
+const WHATSAPP_URL = "https://wa.me/201143730504";
 
 const linkCards: LinkCard[] = [
   { title: "Instagram", subtitle: "@anasaymah", icon: <InstagramIcon className="w-6 h-6" />, href: INSTAGRAM_URL },
