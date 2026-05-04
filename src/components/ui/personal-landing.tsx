@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Share, MoreVertical, Plane, Sun, Moon, ExternalLink, UserPlus, Copy, Link2, MessageCircle, Phone } from "lucide-react";
+import { Share, MoreVertical, Plane, Sun, Moon, ExternalLink, UserPlus, Copy, Link2, MessageCircle } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -29,7 +29,7 @@ const LINKEDIN_URL = "https://linkedin.com/in/anasayman";
 const YOUTUBE_URL = "https://www.youtube.com/@AnasAymah";
 const GITHUB_URL = "https://github.com/anasaymah";
 const THREADS_URL = "https://www.threads.net/@anasaymah";
-const WHATSAPP_URL = "https://wa.me/YOUR_NUMBER";
+const WHATSAPP_URL = "https://wa.me/201143730504";
 
 const linkCards: LinkCard[] = [
   { title: "Instagram", subtitle: "@anasaymah", icon: <InstagramIcon className="w-6 h-6" />, href: INSTAGRAM_URL },
@@ -39,7 +39,7 @@ const linkCards: LinkCard[] = [
   { title: "LinkedIn", subtitle: "in/anasayman", icon: <LinkedInIcon className="w-6 h-6" />, href: LINKEDIN_URL },
   { title: "Threads", subtitle: "@anasaymah", icon: <ThreadsIcon className="w-6 h-6" />, href: THREADS_URL },
   { title: "GitHub", subtitle: "@anasaymah", icon: <GitHubIcon className="w-6 h-6 dark:invert" />, href: GITHUB_URL },
-  { title: "WhatsApp", subtitle: "Chat with me", icon: <Phone className="w-6 h-6" />, href: WHATSAPP_URL },
+  { title: "WhatsApp", subtitle: "Message me", icon: <MessageCircle className="w-6 h-6" />, href: WHATSAPP_URL },
 ];
 
 const socialIcons = [
@@ -54,9 +54,25 @@ interface Ripple { id: number; x: number; y: number; size: number; }
 /* ── Plane takeoff animation component ── */
 const TakeoffPlane: React.FC = () => {
   const [phase, setPhase] = useState<"idle" | "takeoff" | "returning">("idle");
+  const [reducedMotion, setReducedMotion] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => {
+      setReducedMotion(e.matches);
+      if (e.matches) {
+        setPhase("idle");
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      }
+    };
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) return;
     const loop = () => {
       setPhase("takeoff");
       timeoutRef.current = setTimeout(() => {
@@ -69,12 +85,32 @@ const TakeoffPlane: React.FC = () => {
     };
     timeoutRef.current = setTimeout(loop, 1800);
     return () => { if (timeoutRef.current) clearTimeout(timeoutRef.current); };
-  }, []);
+  }, [reducedMotion]);
 
   return (
-    <span className="inline-flex relative motion-reduce:animate-none">
+    <span className="inline-flex relative">
+      {/* Gradient + grain glow behind plane during takeoff */}
+      {phase === "takeoff" && !reducedMotion && (
+        <span
+          aria-hidden
+          className="absolute -inset-2 rounded-full animate-fade-in"
+          style={{
+            background: "radial-gradient(circle, hsl(var(--accent) / 0.4) 0%, transparent 70%)",
+            filter: "blur(6px) url(#grain)",
+          }}
+        />
+      )}
+      {/* Grain SVG filter (invisible) */}
+      <svg width="0" height="0" className="absolute">
+        <filter id="grain">
+          <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+          <feBlend in="SourceGraphic" mode="overlay" />
+        </filter>
+      </svg>
       <Plane
-        className={`w-4 h-4 text-accent ${
+        className={`w-4 h-4 text-accent relative z-10 ${
+          reducedMotion ? "" :
           phase === "takeoff" ? "animate-plane-takeoff" :
           phase === "returning" ? "animate-plane-return" :
           "animate-plane-fly"
@@ -83,8 +119,8 @@ const TakeoffPlane: React.FC = () => {
         strokeWidth={0}
       />
       {/* Exhaust trail */}
-      {phase === "takeoff" && (
-        <span className="absolute left-0 bottom-0 w-3 h-[2px] rounded-full bg-accent/40 animate-fade-in" style={{ filter: "blur(2px)" }} />
+      {phase === "takeoff" && !reducedMotion && (
+        <span className="absolute left-0 bottom-0 w-3 h-[2px] rounded-full bg-accent/40 animate-fade-in z-10" style={{ filter: "blur(2px)" }} />
       )}
     </span>
   );
@@ -169,10 +205,16 @@ const SharePopover: React.FC = () => {
         className="ios-glass-strong w-56 p-1.5 rounded-[22px] glass-border data-[state=open]:animate-glass-pop-in data-[state=closed]:animate-glass-pop-out motion-reduce:!animate-none [&[data-side=bottom][data-align=end]]:[--popover-origin:top_right] [&[data-side=bottom][data-align=start]]:[--popover-origin:top_left] [&[data-side=top][data-align=end]]:[--popover-origin:bottom_right]"
       >
         <div className="flex flex-col" role="menu">
-          <button type="button" role="menuitem" onClick={handleCopy} className={menuItemClass}>
-            <span className="glass-icon-circle"><Copy className="w-3.5 h-3.5" /></span>
-            <span>Copy Link</span>
-          </button>
+          <div className="flex flex-col gap-1 px-3 py-2.5 rounded-2xl">
+            <div className="flex items-center gap-3">
+              <span className="glass-icon-circle"><Link2 className="w-3.5 h-3.5" /></span>
+              <span className="text-[13px] font-medium text-primary dark:text-foreground truncate flex-1">{url}</span>
+            </div>
+            <button type="button" role="menuitem" onClick={handleCopy} className="mt-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-[13px] font-semibold text-accent-foreground bg-accent/90 hover:bg-accent transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring">
+              <Copy className="w-3.5 h-3.5" />
+              <span>Copy Link</span>
+            </button>
+          </div>
           <div className="h-px bg-primary/10 dark:bg-white/10 mx-2" />
           {typeof navigator !== "undefined" && !!navigator.share && (
             <>
