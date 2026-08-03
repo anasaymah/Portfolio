@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "landing-page-builder",
+      "version": "0.1.0",
+      "title": "Landing Page Builder"
+    },
+    "tools": [
+      {
+        "name": "get_profile",
+        "title": "Get profile summary",
+        "description": "Get a summary of the public landing page: owner name, headline, site URL, and link count.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_links",
+        "title": "List profile links",
+        "description": "List the public profile links shown on the landing page (social profiles and contact links).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "all",
+                "social",
+                "contact"
+              ],
+              "default": "all",
+              "description": "Filter links by kind. Defaults to all."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_link",
+        "title": "Get a profile link",
+        "description": "Get the public URL and handle for one platform (e.g. instagram, youtube, whatsapp).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "platform": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Platform name, case-insensitive (e.g. 'instagram')."
+            }
+          },
+          "required": [
+            "platform"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
