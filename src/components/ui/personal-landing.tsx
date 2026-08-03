@@ -51,80 +51,16 @@ const socialIcons = [
 
 interface Ripple { id: number; x: number; y: number; size: number; }
 
-/* ── Plane takeoff animation component ── */
-const TakeoffPlane: React.FC = () => {
-  const [phase, setPhase] = useState<"idle" | "takeoff" | "returning">("idle");
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+/* ── Static plane icon ── */
+const TakeoffPlane: React.FC = () => (
+  <Plane
+    className="inline-block w-4 h-4 text-accent align-[-0.1em]"
+    fill="currentColor"
+    strokeWidth={0}
+    aria-hidden
+  />
+);
 
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mq.matches);
-    const handler = (e: MediaQueryListEvent) => {
-      setReducedMotion(e.matches);
-      if (e.matches) {
-        setPhase("idle");
-        if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      }
-    };
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-
-  useEffect(() => {
-    if (reducedMotion) return;
-    const loop = () => {
-      setPhase("takeoff");
-      timeoutRef.current = setTimeout(() => {
-        setPhase("returning");
-        timeoutRef.current = setTimeout(() => {
-          setPhase("idle");
-          timeoutRef.current = setTimeout(loop, 2500);
-        }, 900);
-      }, 1500);
-    };
-    timeoutRef.current = setTimeout(loop, 1800);
-    return () => { if (timeoutRef.current) clearTimeout(timeoutRef.current); };
-  }, [reducedMotion]);
-
-  return (
-    <span className="inline-flex relative">
-      {/* Gradient + grain glow behind plane during takeoff */}
-      {phase === "takeoff" && !reducedMotion && (
-        <span
-          aria-hidden
-          className="absolute -inset-2 rounded-full animate-fade-in"
-          style={{
-            background: "radial-gradient(circle, hsl(var(--accent) / 0.4) 0%, transparent 70%)",
-            filter: "blur(6px) url(#grain)",
-          }}
-        />
-      )}
-      {/* Grain SVG filter (invisible) */}
-      <svg width="0" height="0" className="absolute">
-        <filter id="grain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
-          <feColorMatrix type="saturate" values="0" />
-          <feBlend in="SourceGraphic" mode="overlay" />
-        </filter>
-      </svg>
-      <Plane
-        className={`w-4 h-4 text-accent relative z-10 ${
-          reducedMotion ? "" :
-          phase === "takeoff" ? "animate-plane-takeoff" :
-          phase === "returning" ? "animate-plane-return" :
-          "animate-plane-fly"
-        }`}
-        fill="currentColor"
-        strokeWidth={0}
-      />
-      {/* Exhaust trail */}
-      {phase === "takeoff" && !reducedMotion && (
-        <span className="absolute left-0 bottom-0 w-3 h-[2px] rounded-full bg-accent/40 animate-fade-in z-10" style={{ filter: "blur(2px)" }} />
-      )}
-    </span>
-  );
-};
 
 /* ── Share popover (top bar) ── */
 const SharePopover: React.FC = () => {
