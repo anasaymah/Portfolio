@@ -38,7 +38,7 @@ const linkCards: LinkCard[] = [
   { title: "Facebook", subtitle: "Anas Ayman", icon: <FacebookIcon className="w-6 h-6" />, href: FACEBOOK_URL },
   { title: "LinkedIn", subtitle: "in/anasayman", icon: <LinkedInIcon className="w-6 h-6" />, href: LINKEDIN_URL },
   { title: "Threads", subtitle: "@anasaymah", icon: <ThreadsIcon className="w-6 h-6" />, href: THREADS_URL },
-  { title: "GitHub", subtitle: "@anasaymah", icon: <GitHubIcon className="w-6 h-6 dark:invert" />, href: GITHUB_URL },
+  { title: "GitHub", subtitle: "@anasaymah", icon: <GitHubIcon className="w-6 h-6 text-foreground" />, href: GITHUB_URL },
   { title: "WhatsApp", subtitle: "Message me", icon: <MessageCircle className="w-6 h-6" />, href: WHATSAPP_URL },
 ];
 
